@@ -21,13 +21,11 @@ class Course {
     return Course(
       id: json['id'] as int,
       name: json['name'] as String,
-      description: json['description'] as String,
+      description: json['description'] as String? ?? '',
       status: json['status'] as String,
-      createAt: DateTime.parse(json['createAt'] as String),
-      placementCompletedAt: json['placementCompletedAt'] != null
-          ? DateTime.parse(json['placementCompletedAt'] as String)
-          : null,
-      updateAt: DateTime.parse(json['updateAt'] as String),
+      createAt: DateTime.parse(json['createdAt'] as String), // Votre API utilise 'createdAt'
+      placementCompletedAt: null, // Pas dans votre API actuelle
+      updateAt: DateTime.parse(json['updatedAt'] as String), // Votre API utilise 'updatedAt'
     );
   }
 

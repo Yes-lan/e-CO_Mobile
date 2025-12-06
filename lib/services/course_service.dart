@@ -15,26 +15,43 @@ class CourseService {
         throw Exception('Non authentifié');
       }
 
+      print('🔍 CourseService.getCourses - URL: ${ApiConfig.baseUrl}${ApiConfig.coursesEndpoint}');
+      print('🔍 CourseService.getCourses - Token: ${token.substring(0, 20)}...');
+
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.coursesEndpoint}'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
+          'ngrok-skip-browser-warning': 'true',
         },
       ).timeout(ApiConfig.receiveTimeout);
 
+      print('🔍 CourseService.getCourses - Status: ${response.statusCode}');
+      print('🔍 CourseService.getCourses - Body: ${response.body}');
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final courses = (data['hydra:member'] as List)
+        
+        // Votre API retourne {"courses": [...]} au lieu de {"hydra:member": [...]}
+        if (data == null) return [];
+        
+        final coursesData = data['courses']; // Au lieu de 'hydra:member'
+        if (coursesData == null) return [];
+        
+        final courses = (coursesData as List)
             .map((json) => Course.fromJson(json))
             .toList();
+        
+        print('✅ CourseService.getCourses - ${courses.length} parcours trouvés');
         return courses;
       } else {
+        print('❌ CourseService.getCourses - Erreur ${response.statusCode}: ${response.body}');
         throw Exception('Erreur lors de la récupération des parcours');
       }
     } catch (e) {
-      print('Erreur CourseService.getCourses: $e');
-      rethrow;
+      print('❌ Erreur CourseService.getCourses: $e');
+      return []; // Retourner une liste vide au lieu de crash
     }
   }
 

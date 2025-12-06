@@ -25,7 +25,14 @@ class SessionService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final sessions = (data['hydra:member'] as List)
+        
+        // Gérer le cas où hydra:member n'existe pas ou est null
+        if (data == null) return [];
+        
+        final member = data['hydra:member'];
+        if (member == null) return [];
+        
+        final sessions = (member as List)
             .map((json) => Session.fromJson(json))
             .toList();
         return sessions;
@@ -34,7 +41,7 @@ class SessionService {
       }
     } catch (e) {
       print('Erreur SessionService.getSessions: $e');
-      rethrow;
+      return []; // Retourner une liste vide au lieu de crash
     }
   }
 
