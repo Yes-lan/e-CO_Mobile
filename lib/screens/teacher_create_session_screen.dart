@@ -104,7 +104,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Créer une session'),
+        title: const Text('Créer une course'),
         backgroundColor: const Color(0xFF00609C),
         foregroundColor: Colors.white,
       ),
@@ -144,7 +144,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                       TextField(
                         controller: _nameController,
                         decoration: const InputDecoration(
-                          labelText: 'Nom de la session',
+                          labelText: 'Nom de la course',
                           hintText: 'Ex: Course du 9 décembre',
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.event),
@@ -209,7 +209,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
                             : const Icon(Icons.play_arrow),
-                        label: Text(_isCreating ? 'Création...' : 'Créer et lancer la session'),
+                        label: Text(_isCreating ? 'Création...' : 'Créer et lancer la course'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFF6731F),
                           foregroundColor: Colors.white,

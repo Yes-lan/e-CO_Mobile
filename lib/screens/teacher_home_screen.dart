@@ -251,7 +251,7 @@ class _SessionsTabState extends State<SessionsTab> {
                             Icon(Icons.history, size: 80, color: const Color(0xFF00609C).withValues(alpha: 0.5)),
                             const SizedBox(height: 16),
                             const Text(
-                              'Aucune session',
+                              'Aucune course terminée',
                               style: TextStyle(fontSize: 18, color: Color(0xFF00609C)),
                             ),
                           ],
@@ -328,7 +328,7 @@ class _SessionsTabState extends State<SessionsTab> {
               child: ElevatedButton.icon(
                 onPressed: _createSession,
                 icon: const Icon(Icons.add, size: 28),
-                label: const Text('Créer une session'),
+                label: const Text('Créer une course'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF6731F),
                   foregroundColor: Colors.white,
