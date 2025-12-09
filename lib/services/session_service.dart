@@ -15,32 +15,52 @@ class SessionService {
         throw Exception('Non authentifié');
       }
 
+      print('🔍 SessionService.getSessions - Chargement...');
+
       final response = await http.get(
-        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.sessionsEndpoint}'),
+        Uri.parse('${ApiConfig.baseUrl}/api/sessions'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
+          'ngrok-skip-browser-warning': 'true',
         },
       ).timeout(ApiConfig.receiveTimeout);
+
+      print('🔍 SessionService.getSessions - Status: ${response.statusCode}');
+      print('🔍 SessionService.getSessions - Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         
-        // Gérer le cas où hydra:member n'existe pas ou est null
-        if (data == null) return [];
+        // L'API retourne {"courses": [...]}
+        if (data == null) {
+          print('⚠️ SessionService.getSessions - Data null');
+          return [];
+        }
         
-        final member = data['hydra:member'];
-        if (member == null) return [];
+        final sessions = data['courses'] as List?;
+        if (sessions == null) {
+          print('⚠️ SessionService.getSessions - courses null');
+          return [];
+        }
         
-        final sessions = (member as List)
+        print('✅ SessionService.getSessions - ${sessions.length} sessions trouvées');
+        
+        final sessionsList = sessions
             .map((json) => Session.fromJson(json))
             .toList();
-        return sessions;
+        
+        // Debug chaque session
+        for (var session in sessionsList) {
+          print('📍 Session: ${session.sessionName}, Start: ${session.sessionStart}, End: ${session.sessionEnd}, isActive: ${session.isActive}');
+        }
+        
+        return sessionsList;
       } else {
         throw Exception('Erreur lors de la récupération des sessions');
       }
     } catch (e) {
-      print('Erreur SessionService.getSessions: $e');
+      print('❌ Erreur SessionService.getSessions: $e');
       return []; // Retourner une liste vide au lieu de crash
     }
   }

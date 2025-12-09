@@ -220,95 +220,128 @@ class _SessionsTabState extends State<SessionsTab> {
 
     final completedSessions = _sessions.where((s) => s.isCompleted).toList();
 
-    return Column(
+    return Stack(
       children: [
-        // Sessions actives (afficher toutes les sessions actives)
-        if (_activeSessions.isNotEmpty)
-          ...(_activeSessions.map((session) => ActiveSessionTimer(
-                session: session,
-                onTap: () => _showCloseSessionDialog(session),
-              )).toList()),
+        // Contenu principal
+        Column(
+          children: [
+            // Sessions actives (afficher toutes les sessions actives)
+            if (_activeSessions.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 100),
+                  itemCount: _activeSessions.length,
+                  itemBuilder: (context, index) {
+                    return ActiveSessionTimer(
+                      session: _activeSessions[index],
+                      onTap: () => _showCloseSessionDialog(_activeSessions[index]),
+                    );
+                  },
+                ),
+              ),
 
-        // Bouton créer session (toujours visible)
-        Padding(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton.icon(
-              onPressed: _createSession,
-              icon: const Icon(Icons.add),
-              label: const Text('Créer une session'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFF6731F),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            // Si pas de sessions actives, afficher les sessions terminées
+            if (_activeSessions.isEmpty)
+              Expanded(
+                child: completedSessions.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.history, size: 80, color: const Color(0xFF00609C).withValues(alpha: 0.5)),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Aucune session',
+                              style: TextStyle(fontSize: 18, color: Color(0xFF00609C)),
+                            ),
+                          ],
+                        ),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: _loadSessions,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 100),
+                          itemCount: completedSessions.length,
+                          itemBuilder: (context, index) {
+                            final session = completedSessions[index];
+                            final duration = session.sessionEnd!.difference(session.sessionStart!);
+                            final hours = duration.inHours;
+                            final minutes = duration.inMinutes.remainder(60);
+
+                            return Card(
+                              margin: const EdgeInsets.only(bottom: 12),
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(16),
+                                leading: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Icon(Icons.check_circle, color: Colors.green),
+                                ),
+                                title: Text(
+                                  session.sessionName,
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${session.nbRunner} participant(s)'),
+                                    Text(
+                                      'Durée: ${hours}h ${minutes}min',
+                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                                onTap: () {
+                                  // Navigation vers détails session
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+              ),
+          ],
+        ),
+
+        // Bouton "Créer une session" fixé en bas et centré
+        Positioned(
+          bottom: 16,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ElevatedButton.icon(
+                onPressed: _createSession,
+                icon: const Icon(Icons.add, size: 28),
+                label: const Text('Créer une session'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFF6731F),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
+                  textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
               ),
             ),
           ),
-
-        // Liste des sessions terminées
-        Expanded(
-          child: completedSessions.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.history, size: 80, color: const Color(0xFF00609C).withOpacity(0.5)),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Aucune session terminée',
-                        style: TextStyle(fontSize: 18, color: Color(0xFF00609C)),
-                      ),
-                    ],
-                  ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _loadSessions,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: completedSessions.length,
-                    itemBuilder: (context, index) {
-                      final session = completedSessions[index];
-                      final duration = session.sessionEnd!.difference(session.sessionStart!);
-                      final hours = duration.inHours;
-                      final minutes = duration.inMinutes.remainder(60);
-
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(16),
-                          leading: Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.green.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Icon(Icons.check_circle, color: Colors.green),
-                          ),
-                          title: Text(
-                            session.sessionName,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('${session.nbRunner} participant(s)'),
-                              Text(
-                                'Durée: ${hours}h ${minutes}min',
-                                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                          onTap: () {
-                            // Navigation vers détails session
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
         ),
       ],
     );
