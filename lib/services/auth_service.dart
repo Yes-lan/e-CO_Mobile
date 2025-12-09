@@ -46,21 +46,31 @@ class AuthService {
   // Récupérer les informations de l'utilisateur connecté
   Future<User?> getUserInfo(String token) async {
     try {
+      print('🔍 getUserInfo: Calling ${ApiConfig.baseUrl}${ApiConfig.usersEndpoint}/me');
+      
       final response = await http.get(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.usersEndpoint}/me'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
+          'ngrok-skip-browser-warning': 'true',
         },
       ).timeout(ApiConfig.receiveTimeout);
 
+      print('📥 getUserInfo: Status code ${response.statusCode}');
+      print('📥 getUserInfo: Response body ${response.body}');
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        return User.fromJson(data);
+        print('✅ getUserInfo: Data parsed successfully');
+        final user = User.fromJson(data);
+        print('✅ User: ${user.firstName} ${user.lastName}');
+        return user;
       }
+      print('❌ getUserInfo: Status code not 200');
       return null;
     } catch (e) {
-      print('Erreur lors de la récupération des infos utilisateur: $e');
+      print('❌ Erreur lors de la récupération des infos utilisateur: $e');
       return null;
     }
   }
@@ -78,10 +88,18 @@ class AuthService {
 
   // Récupérer l'utilisateur sauvegardé
   Future<User?> getSavedUser() async {
+    print('🔍 getSavedUser: Reading user data from storage');
     final userData = await _storage.read(key: _userKey);
+    
     if (userData != null) {
-      return User.fromJson(jsonDecode(userData));
+      print('✅ getSavedUser: User data found in storage');
+      print('📄 User data: $userData');
+      final user = User.fromJson(jsonDecode(userData));
+      print('✅ getSavedUser: ${user.firstName} ${user.lastName}');
+      return user;
     }
+    
+    print('❌ getSavedUser: No user data in storage');
     return null;
   }
 

@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:geolocator/geolocator.dart';
+import 'dart:convert';
 import '../models/beacon.dart';
 import '../models/session.dart';
 import '../models/runner.dart';
@@ -84,7 +85,16 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
 
   void _updateMarkers() {
     _markers = _beacons.map((beacon) {
-      final isScanned = _scannedBeacons.contains(beacon.qr);
+      // Extraire le waypointId du QR code JSON
+      int? waypointId;
+      try {
+        final beaconData = jsonDecode(beacon.qr);
+        waypointId = beaconData['waypointId'] as int?;
+      } catch (e) {
+        waypointId = beacon.id;
+      }
+      
+      final isScanned = _scannedBeacons.contains(waypointId.toString());
       
       return Marker(
         markerId: MarkerId(beacon.id.toString()),
@@ -118,13 +128,50 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
 
   Future<void> _handleBeaconScanned(String qrCode) async {
     try {
-      // Vérifier si la balise existe dans le parcours
+      print('QR Code scanné (brut): $qrCode');
+      
+      // Parser le QR code scanné
+      final scannedData = jsonDecode(qrCode);
+      print('QR Code parsé: $scannedData');
+      
+      final scannedWaypointId = scannedData['waypointId'] as int?;
+      final scannedType = scannedData['type'] as String?;
+      
+      print('WaypointId: $scannedWaypointId, Type: $scannedType');
+      
+      if (scannedWaypointId == null) {
+        _showMessage('QR code invalide: waypointId manquant', Colors.red);
+        return;
+      }
+      
+      print('Nombre de balises chargées: ${_beacons.length}');
+      
+      // Afficher toutes les balises pour debug
+      for (var b in _beacons) {
+        try {
+          final beaconData = jsonDecode(b.qr);
+          print('Balise ${b.name}: waypointId=${beaconData['waypointId']}, type=${b.type}');
+        } catch (e) {
+          print('Erreur parsing balise ${b.name}: $e');
+        }
+      }
+      
+      // Chercher la balise correspondante par waypointId
       final beacon = _beacons.firstWhere(
-        (b) => b.qr == qrCode,
-        orElse: () => throw Exception('Balise non trouvée dans le parcours'),
+        (b) {
+          try {
+            final beaconData = jsonDecode(b.qr);
+            return beaconData['waypointId'] == scannedWaypointId;
+          } catch (e) {
+            return false;
+          }
+        },
+        orElse: () => throw Exception('Balise non trouvée dans le parcours (waypointId: $scannedWaypointId)'),
       );
       
-      if (_scannedBeacons.contains(qrCode)) {
+      print('Balise trouvée: ${beacon.name}');
+      
+      if (_scannedBeacons.contains(scannedWaypointId.toString())) {
         _showMessage('Balise déjà scannée', Colors.orange);
         return;
       }
@@ -140,18 +187,20 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
       
       if (success) {
         setState(() {
-          _scannedBeacons.add(qrCode);
+          _scannedBeacons.add(scannedWaypointId.toString());
           _updateMarkers();
         });
         
         _showMessage('Balise ${beacon.name} scannée ✓', Colors.green);
         
         // Si c'est la balise d'arrivée, terminer la course
-        if (beacon.isEnd) {
+        if (beacon.isEnd || scannedType == 'FINISH' || scannedType == 'START_FINISH') {
           await _finishRace();
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('Erreur handleBeaconScanned: $e');
+      print('Stack trace: $stackTrace');
       _showMessage('Erreur: $e', Colors.red);
     }
   }
@@ -284,7 +333,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
             child: ListTile(
               leading: Icon(
                 isScanned ? Icons.check_circle : Icons.circle_outlined,
-                color: isScanned ? Colors.green : Colors.grey,
+                color: isScanned ? Colors.green : const Color(0xFF00609C),
                 size: 32,
               ),
               title: Text(

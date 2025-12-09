@@ -6,6 +6,7 @@ import '../services/session_service.dart';
 import '../models/user.dart';
 import '../models/course.dart';
 import '../models/session.dart';
+import '../widgets/active_session_timer.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
   const TeacherHomeScreen({super.key});
@@ -90,78 +91,29 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
             tooltip: 'Déconnexion',
           ),
         ],
-        bottom: TabBar(
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : TabBarView(
+              controller: _tabController,
+              children: const [
+                SessionsTab(),
+                CoursesTab(),
+              ],
+            ),
+      bottomNavigationBar: Container(
+        color: const Color(0xFF00609C),
+        child: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.white,
+          indicatorColor: const Color(0xFFF6731F),
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabs: const [
-            Tab(icon: Icon(Icons.directions_run), text: 'Sessions'),
+            Tab(icon: Icon(Icons.directions_run), text: 'Courses'),
             Tab(icon: Icon(Icons.map), text: 'Parcours'),
           ],
         ),
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                // En-tête avec infos utilisateur
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF00609C),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(24),
-                      bottomRight: Radius.circular(24),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.white,
-                        child: Text(
-                          _currentUser?.firstName.substring(0, 1).toUpperCase() ?? 'P',
-                          style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF00609C),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '${_currentUser?.firstName ?? ''} ${_currentUser?.lastName ?? ''}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        _currentUser?.email ?? '',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                
-                // Contenu des tabs
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: const [
-                      SessionsTab(),
-                      CoursesTab(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
     );
   }
 }
@@ -177,6 +129,7 @@ class SessionsTab extends StatefulWidget {
 class _SessionsTabState extends State<SessionsTab> {
   final SessionService _sessionService = SessionService();
   List<Session> _sessions = [];
+  List<Session> _activeSessions = [];
   bool _isLoading = true;
 
   @override
@@ -191,6 +144,8 @@ class _SessionsTabState extends State<SessionsTab> {
       final sessions = await _sessionService.getSessions();
       setState(() {
         _sessions = sessions;
+        // Trouver toutes les sessions actives (sessionStart != null ET sessionEnd == null)
+        _activeSessions = sessions.where((s) => s.isActive).toList();
         _isLoading = false;
       });
     } catch (e) {
@@ -203,62 +158,159 @@ class _SessionsTabState extends State<SessionsTab> {
     }
   }
 
+  Future<void> _createSession() async {
+    final result = await context.push('/teacher-create-session');
+    if (result != null && result is Session) {
+      // Recharger la liste
+      await _loadSessions();
+    }
+  }
+
+  Future<void> _showCloseSessionDialog(Session session) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Clôturer la session'),
+        content: Text(
+          'Voulez-vous vraiment clôturer la session "${session.sessionName}" ?\n\nCette action est irréversible.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Annuler'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Clôturer'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true && mounted) {
+      final success = await _sessionService.closeSession(session.id);
+      if (success && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('✅ Session clôturée'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        await _loadSessions();
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Erreur lors de la clôture'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (_sessions.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.inbox, size: 80, color: Colors.grey[400]),
-            const SizedBox(height: 16),
-            Text(
-              'Aucune session',
-              style: TextStyle(fontSize: 18, color: Colors.grey[600]),
-            ),
-          ],
-        ),
-      );
-    }
+    final completedSessions = _sessions.where((s) => s.isCompleted).toList();
 
-    return RefreshIndicator(
-      onRefresh: _loadSessions,
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _sessions.length,
-        itemBuilder: (context, index) {
-          final session = _sessions[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(16),
-              leading: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF00609C).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(Icons.directions_run, color: Color(0xFF00609C)),
+    return Column(
+      children: [
+        // Sessions actives (afficher toutes les sessions actives)
+        if (_activeSessions.isNotEmpty)
+          ...(_activeSessions.map((session) => ActiveSessionTimer(
+                session: session,
+                onTap: () => _showCloseSessionDialog(session),
+              )).toList()),
+
+        // Bouton créer session (toujours visible)
+        Padding(
+            padding: const EdgeInsets.all(16),
+            child: ElevatedButton.icon(
+              onPressed: _createSession,
+              icon: const Icon(Icons.add),
+              label: const Text('Créer une session'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFF6731F),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              title: Text(
-                session.sessionName,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text('${session.nbRunner} participants'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                // Navigation vers détails session
-              },
             ),
-          );
-        },
-      ),
+          ),
+
+        // Liste des sessions terminées
+        Expanded(
+          child: completedSessions.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.history, size: 80, color: const Color(0xFF00609C).withOpacity(0.5)),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Aucune session terminée',
+                        style: TextStyle(fontSize: 18, color: Color(0xFF00609C)),
+                      ),
+                    ],
+                  ),
+                )
+              : RefreshIndicator(
+                  onRefresh: _loadSessions,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: completedSessions.length,
+                    itemBuilder: (context, index) {
+                      final session = completedSessions[index];
+                      final duration = session.sessionEnd!.difference(session.sessionStart!);
+                      final hours = duration.inHours;
+                      final minutes = duration.inMinutes.remainder(60);
+
+                      return Card(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(16),
+                          leading: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.green.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(Icons.check_circle, color: Colors.green),
+                          ),
+                          title: Text(
+                            session.sessionName,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${session.nbRunner} participant(s)'),
+                              Text(
+                                'Durée: ${hours}h ${minutes}min',
+                                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                          onTap: () {
+                            // Navigation vers détails session
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+        ),
+      ],
     );
   }
 }
@@ -303,15 +355,19 @@ class _CoursesTabState extends State<CoursesTab> {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'draft':
-        return Colors.grey;
+        return Colors.orange; // Brouillon = Orange
       case 'placement_ready':
-        return Colors.orange;
+        return Colors.orange; // Placement en cours = Orange
+      case 'ready':
+        return Colors.green; // Prêt = Vert
       case 'in_progress':
-        return Colors.blue;
+        return Colors.blue; // En cours = Bleu
       case 'completed':
-        return Colors.green;
+        return Colors.green; // Terminé = Vert
+      case 'finished':
+        return Colors.red; // Archivé = Rouge
       default:
-        return Colors.grey;
+        return const Color(0xFF00609C);
     }
   }
 
@@ -320,11 +376,15 @@ class _CoursesTabState extends State<CoursesTab> {
       case 'draft':
         return 'Brouillon';
       case 'placement_ready':
-        return 'Prêt pour placement';
+        return 'Placement en cours';
+      case 'ready':
+        return 'Prêt';
       case 'in_progress':
         return 'En cours';
       case 'completed':
         return 'Terminé';
+      case 'finished':
+        return 'Archivé';
       default:
         return status;
     }
@@ -341,11 +401,11 @@ class _CoursesTabState extends State<CoursesTab> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.map_outlined, size: 80, color: Colors.grey[400]),
+            Icon(Icons.inbox, size: 80, color: const Color(0xFF00609C).withOpacity(0.5)),
             const SizedBox(height: 16),
             Text(
               'Aucun parcours',
-              style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+              style: const TextStyle(fontSize: 18, color: Color(0xFF00609C)),
             ),
           ],
         ),
@@ -400,14 +460,13 @@ class _CoursesTabState extends State<CoursesTab> {
                   ),
                 ],
               ),
-              trailing: course.isPlacementReady
-                  ? const Icon(Icons.arrow_forward_ios, size: 16)
-                  : null,
-              onTap: course.isPlacementReady
-                  ? () {
-                      context.push('/teacher-course-placement', extra: course);
-                    }
-                  : null,
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () async {
+                // Point 4: Attendre le retour et recharger les cours
+                await context.push('/teacher-course-placement', extra: course);
+                // Recharger la liste apr\u00e8s le retour
+                _loadCourses();
+              },
             ),
           );
         },

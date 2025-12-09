@@ -137,7 +137,7 @@ class ParticipantJoinScreen extends StatelessWidget {
                       subtitle,
                       style: const TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: Color(0xFF00609C),
                       ),
                     ),
                   ],

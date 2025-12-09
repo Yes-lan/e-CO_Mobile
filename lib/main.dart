@@ -5,6 +5,7 @@ import 'screens/choice_screen.dart';
 import 'screens/teacher_login_screen.dart';
 import 'screens/teacher_home_screen.dart';
 import 'screens/teacher_course_placement_screen.dart';
+import 'screens/teacher_create_session_screen.dart';
 import 'screens/participant_join_screen.dart';
 import 'screens/participant_scan_screen.dart';
 import 'screens/participant_enter_code_screen.dart';
@@ -69,6 +70,10 @@ final GoRouter _router = GoRouter(
         final course = state.extra as Course;
         return TeacherCoursePlacementScreen(course: course);
       },
+    ),
+    GoRoute(
+      path: '/teacher-create-session',
+      builder: (context, state) => const TeacherCreateSessionScreen(),
     ),
     
     // Routes Participant

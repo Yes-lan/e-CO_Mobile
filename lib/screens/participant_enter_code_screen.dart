@@ -113,7 +113,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Saisissez le code de la session',
+                  'Saisissez le code de la course',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -127,7 +127,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   controller: _codeController,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Code de session',
+                    labelText: 'Code de course',
                     hintText: 'Ex: ABC123',
                     prefixIcon: const Icon(Icons.vpn_key, color: Color(0xFFF6731F)),
                     border: OutlineInputBorder(
@@ -135,7 +135,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.grey),
+                      borderSide: const BorderSide(color: Color(0xFF00609C)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -164,7 +164,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Colors.grey),
+                      borderSide: const BorderSide(color: Color(0xFF00609C)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),

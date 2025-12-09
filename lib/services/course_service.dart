@@ -80,4 +80,42 @@ class CourseService {
       return null;
     }
   }
+
+  // Mettre à jour le statut d'un parcours
+  Future<bool> updateCourseStatus(int courseId, String status) async {
+    try {
+      final token = await _authService.getToken();
+      if (token == null) {
+        throw Exception('Non authentifié');
+      }
+
+      print('🔄 CourseService.updateCourseStatus - courseId: $courseId, status: $status');
+
+      final response = await http.put(
+        Uri.parse('${ApiConfig.baseUrl}${ApiConfig.coursesEndpoint}/$courseId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+          'ngrok-skip-browser-warning': 'true',
+        },
+        body: jsonEncode({
+          'status': status,
+        }),
+      ).timeout(ApiConfig.receiveTimeout);
+
+      print('🔄 CourseService.updateCourseStatus - Status: ${response.statusCode}');
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        print('✅ Statut du parcours mis à jour: $status');
+        return true;
+      } else {
+        print('❌ Erreur ${response.statusCode}: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('❌ Erreur CourseService.updateCourseStatus: $e');
+      return false;
+    }
+  }
 }
+

@@ -41,7 +41,8 @@ class Course {
     };
   }
 
-  bool get isPlacementReady => status == 'placement_ready' || status == 'completed';
+  bool get isPlacementReady => status == 'placement_ready' || status == 'completed' || status == 'ready';
   bool get isInProgress => status == 'in_progress';
   bool get isDraft => status == 'draft';
+  bool get isReady => status == 'ready';
 }
