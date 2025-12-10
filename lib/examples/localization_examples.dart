@@ -93,7 +93,7 @@ class ProgrammaticLanguageSwitchExample extends StatelessWidget {
             languageCode: 'en',
           ),
           _LanguageButton(
-            flag: '🇪🇸',
+            flag: '🏴',
             language: l10n.basque,
             languageCode: 'eu',
           ),

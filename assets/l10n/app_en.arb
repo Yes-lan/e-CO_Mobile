@@ -60,5 +60,6 @@
   "noCourseReady": "No courses ready",
   "mustCreatePlaceBefore": "You must first create and place\nthe beacons of a course",
   "back": "Back",
-  "noReady": "No courses ready"
+  "noReady": "No courses ready",
+  "beaconsPlaced": "beacons placed"
 }

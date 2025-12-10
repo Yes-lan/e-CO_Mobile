@@ -193,4 +193,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noReady => 'Aucun parcours prêt';
+
+  @override
+  String get beaconsPlaced => 'balises placées';
 }

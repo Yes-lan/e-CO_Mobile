@@ -465,6 +465,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Aucun parcours prêt'**
   String get noReady;
+
+  /// No description provided for @beaconsPlaced.
+  ///
+  /// In fr, this message translates to:
+  /// **'balises placées'**
+  String get beaconsPlaced;
 }
 
 class _AppLocalizationsDelegate

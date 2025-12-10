@@ -60,5 +60,6 @@
   "noCourseReady": "Aucun parcours prêt",
   "mustCreatePlaceBefore": "Vous devez d'abord créer et placer\nles balises d'un parcours",
   "back": "Retour",
-  "noReady": "Aucun parcours prêt"
+  "noReady": "Aucun parcours prêt",
+  "beaconsPlaced": "balises placées"
 }

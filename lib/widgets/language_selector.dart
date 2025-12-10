@@ -45,7 +45,7 @@ class LanguageSelector extends StatelessWidget {
               child: Row(
                 children: [
                   const Text(
-                    '🇪🇸',
+                    '🏴',
                     style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(width: 12),
@@ -74,7 +74,7 @@ class LanguageSelector extends StatelessWidget {
       case 'en':
         return '🇬🇧';
       case 'eu':
-        return '🇪🇸';
+        return '🏴';
       default:
         return '🇫🇷';
     }

@@ -129,7 +129,7 @@ Widget de sélection de langue avec menu déroulant et drapeaux emoji.
 **Localisation :**
 - 🇫🇷 Français
 - 🇬🇧 Anglais
-- 🇪🇸 Basque (représenté par le drapeau espagnol)
+- 🏴 Basque (représenté par un drapeau noir)
 
 ## Points importants
 

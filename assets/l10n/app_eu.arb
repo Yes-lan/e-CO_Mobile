@@ -60,5 +60,6 @@
   "noCourseReady": "Prestaturiko ibilbiderik ez",
   "mustCreatePlaceBefore": "Lehenik eta behin ibilbide baten\nfarolak sortu eta kokatu behar dituzu",
   "back": "Atzera",
-  "noReady": "Prestaturiko ibilbiderik ez"
+  "noReady": "Prestaturiko ibilbiderik ez",
+  "beaconsPlaced": "farola kokatuak"
 }

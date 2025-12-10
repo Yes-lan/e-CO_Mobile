@@ -193,4 +193,7 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String get noReady => 'Prestaturiko ibilbiderik ez';
+
+  @override
+  String get beaconsPlaced => 'farola kokatuak';
 }

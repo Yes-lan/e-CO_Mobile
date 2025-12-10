@@ -335,7 +335,7 @@ class _SessionsTabState extends State<SessionsTab> {
               child: ElevatedButton.icon(
                 onPressed: _createSession,
                 icon: const Icon(Icons.add, size: 28),
-                label: const Text('Créer une course'),
+                label: Text(AppLocalizations.of(context)?.createRace ?? 'Créer une course'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF6731F),
                   foregroundColor: Colors.white,

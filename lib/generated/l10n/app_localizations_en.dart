@@ -192,4 +192,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noReady => 'No courses ready';
+
+  @override
+  String get beaconsPlaced => 'beacons placed';
 }

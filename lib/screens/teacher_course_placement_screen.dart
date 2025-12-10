@@ -7,6 +7,7 @@ import '../models/course.dart';
 import '../models/beacon.dart';
 import '../services/waypoint_service.dart';
 import '../services/course_service.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class TeacherCoursePlacementScreen extends StatefulWidget {
   final Course course;
@@ -601,7 +602,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
           children: [
             Text(widget.course.name),
             Text(
-              '$placedCount/$totalCount balises placées',
+              '$placedCount/$totalCount ${AppLocalizations.of(context)?.beaconsPlaced ?? 'balises placées'}',
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
             ),
           ],
