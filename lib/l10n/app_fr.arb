@@ -1,0 +1,47 @@
+{
+  "@@locale": "fr",
+  "welcome": "Bienvenue",
+  "@welcome": {
+    "description": "Message de bienvenue sur l'écran de choix"
+  },
+  "chooseProfile": "Choisissez votre profil",
+  "@chooseProfile": {
+    "description": "Instruction pour sélectionner un type de profil"
+  },
+  "teacher": "Professeur",
+  "@teacher": {
+    "description": "Option de profil professeur"
+  },
+  "teacherDescription": "Gérer les parcours et courses",
+  "@teacherDescription": {
+    "description": "Description des fonctionnalités du profil professeur"
+  },
+  "participant": "Participant",
+  "@participant": {
+    "description": "Option de profil participant"
+  },
+  "participantDescription": "Rejoindre une course",
+  "@participantDescription": {
+    "description": "Description des fonctionnalités du profil participant"
+  },
+  "appTitle": "eCO - Course d'Orientation",
+  "@appTitle": {
+    "description": "Titre de l'application"
+  },
+  "french": "Français",
+  "@french": {
+    "description": "Option de langue française"
+  },
+  "english": "Anglais",
+  "@english": {
+    "description": "Option de langue anglaise"
+  },
+  "basque": "Basque",
+  "@basque": {
+    "description": "Option de langue basque"
+  },
+  "selectLanguage": "Sélectionner la langue",
+  "@selectLanguage": {
+    "description": "Label du sélecteur de langue"
+  }
+}

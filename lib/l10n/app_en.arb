@@ -1,0 +1,47 @@
+{
+  "@@locale": "en",
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message on the choice screen"
+  },
+  "chooseProfile": "Choose your profile",
+  "@chooseProfile": {
+    "description": "Instruction to select a profile type"
+  },
+  "teacher": "Teacher",
+  "@teacher": {
+    "description": "Teacher profile option"
+  },
+  "teacherDescription": "Manage courses and races",
+  "@teacherDescription": {
+    "description": "Description of teacher profile features"
+  },
+  "participant": "Participant",
+  "@participant": {
+    "description": "Participant profile option"
+  },
+  "participantDescription": "Join a race",
+  "@participantDescription": {
+    "description": "Description of participant profile features"
+  },
+  "appTitle": "eCO - Orienteering Race",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "french": "French",
+  "@french": {
+    "description": "French language option"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language option"
+  },
+  "basque": "Basque",
+  "@basque": {
+    "description": "Basque language option"
+  },
+  "selectLanguage": "Select language",
+  "@selectLanguage": {
+    "description": "Language selector label"
+  }
+}

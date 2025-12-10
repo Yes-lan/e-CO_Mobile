@@ -1,0 +1,47 @@
+{
+  "@@locale": "eu",
+  "welcome": "Ongi etorri",
+  "@welcome": {
+    "description": "Aukera pantailako ongi etorri mezua"
+  },
+  "chooseProfile": "Aukeratu zure profila",
+  "@chooseProfile": {
+    "description": "Profil mota bat hautatzeko argibidea"
+  },
+  "teacher": "Irakaslea",
+  "@teacher": {
+    "description": "Irakasle profilaren aukera"
+  },
+  "teacherDescription": "Kudeatu ibilbideak eta lasaiketa-probak",
+  "@teacherDescription": {
+    "description": "Irakasle profilaren ezaugarrien deskribapena"
+  },
+  "participant": "Parte-hartzailea",
+  "@participant": {
+    "description": "Parte-hartzaile profilaren aukera"
+  },
+  "participantDescription": "Probara batu",
+  "@participantDescription": {
+    "description": "Parte-hartzaile profilaren ezaugarrien deskribapena"
+  },
+  "appTitle": "eCO - Orientazio Lasterketa",
+  "@appTitle": {
+    "description": "Aplikazioaren izenburua"
+  },
+  "french": "Frantsesa",
+  "@french": {
+    "description": "Frantses hizkuntzaren aukera"
+  },
+  "english": "Ingelesa",
+  "@english": {
+    "description": "Ingeles hizkuntzaren aukera"
+  },
+  "basque": "Euskara",
+  "@basque": {
+    "description": "Euskararen aukera"
+  },
+  "selectLanguage": "Hizkuntza hautatu",
+  "@selectLanguage": {
+    "description": "Hizkuntza hautatzailearen etiketa"
+  }
+}
