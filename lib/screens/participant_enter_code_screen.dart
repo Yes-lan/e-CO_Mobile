@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/session_service.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class ParticipantEnterCodeScreen extends StatefulWidget {
   const ParticipantEnterCodeScreen({super.key});
@@ -66,6 +67,8 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return GestureDetector(
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
@@ -102,20 +105,20 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                 const SizedBox(height: 24),
                 
                 // Titre
-                const Text(
-                  'Entrer le code',
+                Text(
+                  l10n.enterTheCode,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFF6731F),
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Saisissez le code de la course',
+                Text(
+                  l10n.selectYourCode,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                   ),
@@ -127,8 +130,8 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   controller: _codeController,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Code de course',
-                    hintText: 'Ex: ABC123',
+                    labelText: l10n.sessionCode,
+                    hintText: l10n.sessionCodeHint,
                     prefixIcon: const Icon(Icons.vpn_key, color: Color(0xFFF6731F)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -144,7 +147,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer le code';
+                      return l10n.sessionCode;
                     }
                     return null;
                   },
@@ -156,8 +159,8 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   controller: _nameController,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Votre pseudo',
-                    hintText: 'Ex: Jean',
+                    labelText: l10n.yourNickname,
+                    hintText: l10n.yourNicknameHint,
                     prefixIcon: const Icon(Icons.person, color: Color(0xFFF6731F)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -173,7 +176,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre pseudo';
+                      return l10n.yourNickname;
                     }
                     return null;
                   },
@@ -201,9 +204,9 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Text(
-                          'Rejoindre',
-                          style: TextStyle(
+                      : Text(
+                          l10n.joinRace,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class TeacherLoginScreen extends StatefulWidget {
   const TeacherLoginScreen({super.key});
@@ -69,6 +70,8 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return GestureDetector(
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
@@ -97,20 +100,20 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                 const SizedBox(height: 20),
                 
                 // Titre
-                const Text(
-                  'Connexion Professeur',
+                Text(
+                  l10n.teacherLogin,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF00609C),
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Accédez à vos parcours et sessions',
+                Text(
+                  l10n.accessCourses,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                   ),
@@ -123,8 +126,8 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'exemple@mail.com',
+                    labelText: l10n.email,
+                    hintText: l10n.emailHint,
                     prefixIcon: const Icon(Icons.email, color: Color(0xFF00609C)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -140,10 +143,10 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre email';
+                      return l10n.invalidEmail;
                     }
                     if (!value.contains('@')) {
-                      return 'Email invalide';
+                      return l10n.invalidEmailFormat;
                     }
                     return null;
                   },
@@ -156,7 +159,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   obscureText: _obscurePassword,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Mot de passe',
+                    labelText: l10n.password,
                     prefixIcon: const Icon(Icons.lock, color: Color(0xFF00609C)),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -181,10 +184,10 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre mot de passe';
+                      return l10n.emptyPassword;
                     }
                     if (value.length < 6) {
-                      return 'Le mot de passe doit contenir au moins 6 caractères';
+                      return l10n.shortPassword;
                     }
                     return null;
                   },
@@ -212,9 +215,9 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Text(
-                          'Se connecter',
-                          style: TextStyle(
+                      : Text(
+                          l10n.login,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

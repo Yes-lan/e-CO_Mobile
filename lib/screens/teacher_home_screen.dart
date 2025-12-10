@@ -7,6 +7,7 @@ import '../models/user.dart';
 import '../models/course.dart';
 import '../models/session.dart';
 import '../widgets/active_session_timer.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
   const TeacherHomeScreen({super.key});
@@ -47,19 +48,21 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
   }
 
   Future<void> _handleLogout() async {
+    final l10n = AppLocalizations.of(context)!;
+    
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Déconnexion'),
-        content: const Text('Voulez-vous vraiment vous déconnecter ?'),
+        title: Text(l10n.confirmLogout),
+        content: Text(l10n.confirmLogoutMessage),
         actions: [
           TextButton(
             onPressed: () => context.pop(false),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => context.pop(true),
-            child: const Text('Déconnexion', style: TextStyle(color: Colors.red)),
+            child: Text(l10n.logout, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -75,12 +78,14 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text(
-          'Espace Professeur',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          l10n.teacherHome,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF00609C),
         elevation: 0,
@@ -88,7 +93,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: _handleLogout,
-            tooltip: 'Déconnexion',
+            tooltip: l10n.logout,
           ),
         ],
       ),
@@ -108,9 +113,9 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
           indicatorColor: const Color(0xFFF6731F),
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          tabs: const [
-            Tab(icon: Icon(Icons.directions_run), text: 'Courses'),
-            Tab(icon: Icon(Icons.map), text: 'Parcours'),
+          tabs: [
+            Tab(icon: const Icon(Icons.directions_run), text: l10n.races),
+            Tab(icon: const Icon(Icons.map), text: l10n.courses),
           ],
         ),
       ),
@@ -167,17 +172,19 @@ class _SessionsTabState extends State<SessionsTab> {
   }
 
   Future<void> _showCloseSessionDialog(Session session) async {
+    final l10n = AppLocalizations.of(context)!;
+    
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clôturer la session'),
+        title: Text(l10n.confirmLogout),
         content: Text(
           'Voulez-vous vraiment clôturer la session "${session.sessionName}" ?\n\nCette action est irréversible.',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -185,7 +192,7 @@ class _SessionsTabState extends State<SessionsTab> {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Clôturer'),
+            child: Text(l10n.confirmLogout),
           ),
         ],
       ),
@@ -250,9 +257,9 @@ class _SessionsTabState extends State<SessionsTab> {
                           children: [
                             Icon(Icons.history, size: 80, color: const Color(0xFF00609C).withValues(alpha: 0.5)),
                             const SizedBox(height: 16),
-                            const Text(
-                              'Aucune course terminée',
-                              style: TextStyle(fontSize: 18, color: Color(0xFF00609C)),
+                            Text(
+                              AppLocalizations.of(context)?.noCompletedRaces ?? 'Aucune course terminée',
+                              style: const TextStyle(fontSize: 18, color: Color(0xFF00609C)),
                             ),
                           ],
                         ),
@@ -289,9 +296,9 @@ class _SessionsTabState extends State<SessionsTab> {
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('${session.nbRunner} participant(s)'),
+                                    Text('${session.nbRunner} ${AppLocalizations.of(context)?.participants ?? "participant(s)"}'),
                                     Text(
-                                      'Durée: ${hours}h ${minutes}min',
+                                      '${AppLocalizations.of(context)?.duration ?? "Durée"}: ${hours}h ${minutes}min',
                                       style: const TextStyle(fontSize: 12, color: Colors.grey),
                                     ),
                                   ],

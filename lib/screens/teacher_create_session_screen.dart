@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../models/course.dart';
 import '../services/course_service.dart';
 import '../services/session_service.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class TeacherCreateSessionScreen extends StatefulWidget {
   const TeacherCreateSessionScreen({super.key});
@@ -102,9 +103,11 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Créer une course'),
+        title: Text(l10n.createRace),
         backgroundColor: const Color(0xFF00609C),
         foregroundColor: Colors.white,
       ),
@@ -117,20 +120,20 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                     children: [
                       const Icon(Icons.info_outline, size: 64, color: Colors.grey),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Aucun parcours prêt',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      Text(
+                        l10n.noCourseReady,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        'Vous devez d\'abord créer et placer\nles balises d\'un parcours',
+                      Text(
+                        l10n.mustCreatePlaceBefore,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: () => context.pop(),
-                        child: const Text('Retour'),
+                        child: Text(l10n.back),
                       ),
                     ],
                   ),
@@ -143,20 +146,20 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                       // Nom de la session
                       TextField(
                         controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Nom de la course',
-                          hintText: 'Ex: Course du 9 décembre',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.event),
+                        decoration: InputDecoration(
+                          labelText: l10n.raceName,
+                          hintText: l10n.raceNameHint,
+                          border: const OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.event),
                         ),
                       ),
                       
                       const SizedBox(height: 24),
                       
                       // Sélection du parcours
-                      const Text(
-                        'Sélectionner un parcours',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      Text(
+                        l10n.selectCourse,
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       const Text(
@@ -209,7 +212,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
                             : const Icon(Icons.play_arrow),
-                        label: Text(_isCreating ? 'Création...' : 'Créer et lancer la course'),
+                        label: Text(_isCreating ? 'Création...' : l10n.createRace),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFF6731F),
                           foregroundColor: Colors.white,

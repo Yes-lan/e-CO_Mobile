@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class ParticipantJoinScreen extends StatelessWidget {
   const ParticipantJoinScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return GestureDetector(
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
@@ -39,20 +42,20 @@ class ParticipantJoinScreen extends StatelessWidget {
               const SizedBox(height: 24),
               
               // Titre
-              const Text(
-                'Rejoindre une course',
+              Text(
+                l10n.participantJoin,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFF6731F),
                 ),
               ),
               const SizedBox(height: 12),
-              const Text(
-                'Choisissez comment rejoindre',
+              Text(
+                l10n.chooseHowToJoin,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
                 ),
@@ -63,8 +66,8 @@ class ParticipantJoinScreen extends StatelessWidget {
               _buildJoinButton(
                 context,
                 icon: Icons.qr_code_scanner,
-                title: 'Scanner le QR Code',
-                subtitle: 'Scannez la balise de départ',
+                title: l10n.scanQrCode,
+                subtitle: l10n.scanBeaconStart,
                 onTap: () => context.go('/participant-scan'),
               ),
               
@@ -74,8 +77,8 @@ class ParticipantJoinScreen extends StatelessWidget {
               _buildJoinButton(
                 context,
                 icon: Icons.keyboard,
-                title: 'Entrer le code',
-                subtitle: 'Saisir le code de session',
+                title: l10n.enterCode,
+                subtitle: l10n.enterSessionCode,
                 onTap: () => context.go('/participant-enter-code'),
               ),
             ],

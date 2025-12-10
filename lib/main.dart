@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'screens/splash_screen.dart';
 import 'screens/choice_screen.dart';
 import 'screens/teacher_login_screen.dart';
@@ -13,9 +15,16 @@ import 'screens/participant_race_screen.dart';
 import 'models/course.dart';
 import 'models/beacon.dart';
 import 'models/session.dart';
+import 'services/localization/localization_provider.dart';
+import 'generated/l10n/app_localizations.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => LocalizationProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,19 +32,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'eCO - Course d\'Orientation',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00609C),
-          primary: const Color(0xFF00609C),
-          secondary: const Color(0xFFF6731F),
-        ),
-        useMaterial3: true,
-        fontFamily: 'Roboto',
-      ),
-      routerConfig: _router,
+    return Consumer<LocalizationProvider>(
+      builder: (context, localizationProvider, _) {
+        return MaterialApp.router(
+          title: 'eCO - Course d\'Orientation',
+          debugShowCheckedModeBanner: false,
+          locale: localizationProvider.locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color(0xFF00609C),
+              primary: const Color(0xFF00609C),
+              secondary: const Color(0xFFF6731F),
+            ),
+            useMaterial3: true,
+            fontFamily: 'Roboto',
+          ),
+          routerConfig: _router,
+        );
+      },
     );
   }
 }

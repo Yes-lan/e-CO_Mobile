@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:go_router/go_router.dart';
 import '../services/beacon_service.dart';
 import '../models/beacon.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class ParticipantScanScreen extends StatefulWidget {
   const ParticipantScanScreen({super.key});
@@ -58,17 +59,18 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
 
   void _showNameDialog(Beacon beacon) {
     final nameController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
     
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('Entrez votre pseudo'),
+        title: Text(l10n.enterYourNickname),
         content: TextField(
           controller: nameController,
-          decoration: const InputDecoration(
-            hintText: 'Votre nom',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            hintText: l10n.yourNicknameHint,
+            border: const OutlineInputBorder(),
           ),
           autofocus: true,
         ),
@@ -77,7 +79,7 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
             onPressed: () {
               context.pop();
             },
-            child: const Text('Annuler'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -90,7 +92,7 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFF6731F),
             ),
-            child: const Text('Valider'),
+            child: Text(l10n.validate),
           ),
         ],
       ),
@@ -123,6 +125,8 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return GestureDetector(
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
@@ -132,7 +136,7 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Scanner la balise'),
+          title: Text(l10n.scanStartBeacon),
           backgroundColor: const Color(0xFFF6731F),
           foregroundColor: Colors.white,
           leading: IconButton(
@@ -159,10 +163,10 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
                 color: Colors.black.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text(
-                'Placez le QR code de la balise\nde départ dans le cadre',
+              child: Text(
+                '${l10n.scanStartBeacon}\n${l10n.scanBeaconStart}',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),
