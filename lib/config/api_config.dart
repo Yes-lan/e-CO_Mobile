@@ -1,7 +1,7 @@
 class ApiConfig {
   // URL de base de votre API
   //static const String baseUrl = 'https://uneffectuated-immovably-jair.ngrok-free.dev/api';
-  static const String baseUrl = 'https://uneffectuated-immovably-jair.ngrok-free.dev';
+  static const String baseUrl = 'https://paly-unflappably-miyoko.ngrok-free.dev';
   
   // Endpoints
   static const String loginEndpoint = '/api/login_check';
