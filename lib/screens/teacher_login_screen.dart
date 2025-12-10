@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
+import '../l10n/app_localizations.dart';
 
 class TeacherLoginScreen extends StatefulWidget {
   const TeacherLoginScreen({super.key});
@@ -47,7 +48,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
         // Afficher l'erreur
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(result['message'] ?? 'Erreur de connexion'),
+            content: Text(result['message'] ?? AppLocalizations.of(context)!.loginError),
             backgroundColor: Colors.red,
           ),
         );
@@ -56,7 +57,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erreur: $e'),
+          content: Text(AppLocalizations.of(context)!.error(e)),
           backgroundColor: Colors.red,
         ),
       );
@@ -97,20 +98,20 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                 const SizedBox(height: 20),
                 
                 // Titre
-                const Text(
-                  'Connexion Professeur',
+                Text(
+                  AppLocalizations.of(context)!.teacherLoginTitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF00609C),
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Accédez à vos parcours et sessions',
+                Text(
+                  AppLocalizations.of(context)!.teacherLoginSubtitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                   ),
@@ -123,8 +124,8 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'exemple@mail.com',
+                    labelText: AppLocalizations.of(context)!.email,
+                    hintText: AppLocalizations.of(context)!.emailHint,
                     prefixIcon: const Icon(Icons.email, color: Color(0xFF00609C)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -140,10 +141,10 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre email';
+                      return AppLocalizations.of(context)!.pleaseEnterEmail;
                     }
                     if (!value.contains('@')) {
-                      return 'Email invalide';
+                      return AppLocalizations.of(context)!.invalidEmail;
                     }
                     return null;
                   },
@@ -156,7 +157,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   obscureText: _obscurePassword,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Mot de passe',
+                    labelText: AppLocalizations.of(context)!.password,
                     prefixIcon: const Icon(Icons.lock, color: Color(0xFF00609C)),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -181,10 +182,10 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre mot de passe';
+                      return AppLocalizations.of(context)!.pleaseEnterPassword;
                     }
                     if (value.length < 6) {
-                      return 'Le mot de passe doit contenir au moins 6 caractères';
+                      return AppLocalizations.of(context)!.passwordMinLength;
                     }
                     return null;
                   },
@@ -212,9 +213,9 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Text(
-                          'Se connecter',
-                          style: TextStyle(
+                      : Text(
+                          AppLocalizations.of(context)!.loginButton,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

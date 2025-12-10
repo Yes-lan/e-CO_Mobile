@@ -7,6 +7,7 @@ import '../models/course.dart';
 import '../models/beacon.dart';
 import '../services/waypoint_service.dart';
 import '../services/course_service.dart';
+import '../l10n/app_localizations.dart';
 
 class TeacherCoursePlacementScreen extends StatefulWidget {
   final Course course;
@@ -77,7 +78,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         if (mounted) {
-          _showError('Le GPS est désactivé. Veuillez l\'activer.');
+          _showError(AppLocalizations.of(context)!.gpsDisabled);
         }
         return;
       }
@@ -89,7 +90,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
           if (mounted) {
-            _showError('Permission de localisation refusée');
+            _showError(AppLocalizations.of(context)!.locationPermissionDenied);
           }
           return;
         }
@@ -97,7 +98,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
       
       if (permission == LocationPermission.deniedForever) {
         if (mounted) {
-          _showError('Permission de localisation refusée définitivement.');
+          _showError(AppLocalizations.of(context)!.locationPermissionDeniedForever);
         }
         return;
       }
@@ -320,19 +321,19 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Type: ${beacon.type}'),
+            Text(AppLocalizations.of(context)!.type(beacon.type)),
             const SizedBox(height: 8),
-            Text('Statut: ${beacon.isPlaced ? "✅ Placée" : "⏳ À placer"}'),
+            Text(AppLocalizations.of(context)!.status(beacon.isPlaced ? AppLocalizations.of(context)!.placed : AppLocalizations.of(context)!.toPlace)),
             if (beacon.placedAt != null) ...[
               const SizedBox(height: 8),
-              Text('Placée le: ${beacon.placedAt!.toLocal().toString().split('.')[0]}'),
+              Text(AppLocalizations.of(context)!.placedOn(beacon.placedAt!.toLocal().toString().split('.')[0])),
             ],
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Fermer'),
+            child: Text(AppLocalizations.of(context)!.closeButton),
           ),
         ],
       ),
@@ -399,7 +400,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
         print('🔍 Balise trouvée (ancien format): ${beacon.name}, isPlaced: ${beacon.isPlaced}');
         
         if (beacon.isPlaced) {
-          _showError('Cette balise est déjà placée');
+          _showError(AppLocalizations.of(context)!.alreadyPlaced);
           _qrProcessing = false;
           return;
         }
@@ -408,7 +409,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
         final precisePosition = await _getPreciseLocation();
 
         if (precisePosition == null) {
-          _showError('Impossible d\'obtenir une position GPS précise');
+          _showError(AppLocalizations.of(context)!.cannotGetPreciseLocation);
           _qrProcessing = false;
           return;
         }
@@ -456,7 +457,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
       print('🔍 Balise trouvée: ${beacon.name}, isPlaced: ${beacon.isPlaced}');
 
       if (beacon.isPlaced) {
-        _showError('Cette balise est déjà placée');
+        _showError(AppLocalizations.of(context)!.alreadyPlaced);
         _qrProcessing = false;
         return;
       }
@@ -465,7 +466,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
       final precisePosition = await _getPreciseLocation();
 
       if (precisePosition == null) {
-        _showError('Impossible d\'obtenir une position GPS précise');
+        _showError(AppLocalizations.of(context)!.cannotGetPreciseLocation);
         _qrProcessing = false;
         return;
       }
@@ -486,14 +487,14 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Confirmer le placement'),
+        title: Text(AppLocalizations.of(context)!.confirmPlacement),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Balise: ${beacon.name}'),
+            Text(AppLocalizations.of(context)!.beacon(beacon.name)),
             const SizedBox(height: 8),
-            const Text('Position GPS:'),
+            Text(AppLocalizations.of(context)!.gpsPosition),
             Text('Lat: ${_currentPosition!.latitude.toStringAsFixed(6)}'),
             Text('Lng: ${_currentPosition!.longitude.toStringAsFixed(6)}'),
           ],
@@ -501,7 +502,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -512,7 +513,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
               backgroundColor: const Color(0xFF00609C),
               foregroundColor: Colors.white,
             ),
-            child: const Text('Confirmer'),
+            child: Text(AppLocalizations.of(context)!.confirm),
           ),
         ],
       ),
@@ -536,7 +537,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('✅ ${beacon.name} placée'),
+            content: Text(AppLocalizations.of(context)!.beaconPlaced(beacon.name)),
             backgroundColor: Colors.green,
           ),
         );
@@ -546,7 +547,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
       // Vérifier si toutes les balises sont placées
       _checkCompletion();
     } else {
-      _showError('Erreur lors du placement');
+      _showError(AppLocalizations.of(context)!.placementError);
     }
   }
   
@@ -560,10 +561,10 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
       // Afficher le message de succès
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✅ Toutes les balises sont placées ! Parcours prêt.'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.allBeaconsPlaced),
             backgroundColor: Colors.green,
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
           ),
         );
       }
@@ -601,7 +602,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
           children: [
             Text(widget.course.name),
             Text(
-              '$placedCount/$totalCount balises placées',
+              AppLocalizations.of(context)!.beaconsPlaced(placedCount, totalCount),
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
             ),
           ],
@@ -618,7 +619,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
         onPressed: _startScanner,
         backgroundColor: const Color(0xFFF6731F),
         icon: const Icon(Icons.qr_code_scanner),
-        label: const Text('Scanner'),
+        label: Text(AppLocalizations.of(context)!.scanner),
       ) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
@@ -636,19 +637,19 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
           right: 16,
           child: Card(
             color: Colors.black87,
-            child: Padding(
+              child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const Text(
-                    'Scannez le QR code de la balise',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  Text(
+                    AppLocalizations.of(context)!.scanQRCode,
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: _stopScanner,
-                    child: const Text('Annuler'),
+                    child: Text(AppLocalizations.of(context)!.cancel),
                   ),
                 ],
               ),
@@ -692,9 +693,9 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
               initiallyExpanded: progress < 1.0,
               title: Row(
                 children: [
-                  const Text(
-                    'Balises',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  Text(
+                    AppLocalizations.of(context)!.beacons,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   const SizedBox(width: 8),
                   Container(
@@ -755,9 +756,9 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
                 ),
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Départ',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
+              Text(
+                AppLocalizations.of(context)!.start,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
               ),
             ],
           ),
@@ -784,9 +785,9 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
                 ),
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Balises de contrôle',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
+              Text(
+                AppLocalizations.of(context)!.controlBeacons,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
               ),
             ],
           ),
@@ -813,9 +814,9 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
                 ),
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Arrivée',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
+              Text(
+                AppLocalizations.of(context)!.finish,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
               ),
             ],
           ),
@@ -873,9 +874,9 @@ class _GPSPrecisionDialog extends StatelessWidget {
               color: Color(0xFF00609C),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Positionnement précis en cours',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.precisePositioning,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

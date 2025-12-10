@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/session_service.dart';
+import '../l10n/app_localizations.dart';
 
 class ParticipantEnterCodeScreen extends StatefulWidget {
   const ParticipantEnterCodeScreen({super.key});
@@ -43,8 +44,8 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Code de session invalide'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.invalidSessionCode),
             backgroundColor: Colors.red,
           ),
         );
@@ -53,7 +54,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erreur: $e'),
+          content: Text(AppLocalizations.of(context)!.error(e)),
           backgroundColor: Colors.red,
         ),
       );
@@ -102,20 +103,20 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                 const SizedBox(height: 24),
                 
                 // Titre
-                const Text(
-                  'Entrer le code',
+                Text(
+                  AppLocalizations.of(context)!.enterCodeTitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFFF6731F),
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Saisissez le code de la course',
+                Text(
+                  AppLocalizations.of(context)!.enterCodeSubtitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                   ),
@@ -127,8 +128,8 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   controller: _codeController,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Code de course',
-                    hintText: 'Ex: ABC123',
+                    labelText: AppLocalizations.of(context)!.sessionCode,
+                    hintText: AppLocalizations.of(context)!.sessionCodeHint,
                     prefixIcon: const Icon(Icons.vpn_key, color: Color(0xFFF6731F)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -144,7 +145,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer le code';
+                      return AppLocalizations.of(context)!.pleaseEnterCode;
                     }
                     return null;
                   },
@@ -156,8 +157,8 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   controller: _nameController,
                   enabled: !_isLoading,
                   decoration: InputDecoration(
-                    labelText: 'Votre pseudo',
-                    hintText: 'Ex: Jean',
+                    labelText: AppLocalizations.of(context)!.yourPseudo,
+                    hintText: AppLocalizations.of(context)!.yourPseudoHint,
                     prefixIcon: const Icon(Icons.person, color: Color(0xFFF6731F)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -173,7 +174,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre pseudo';
+                      return AppLocalizations.of(context)!.pleaseEnterPseudo;
                     }
                     return null;
                   },
@@ -201,9 +202,9 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Text(
-                          'Rejoindre',
-                          style: TextStyle(
+                      : Text(
+                          AppLocalizations.of(context)!.join,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),

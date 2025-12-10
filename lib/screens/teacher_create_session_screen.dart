@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../models/course.dart';
 import '../services/course_service.dart';
 import '../services/session_service.dart';
+import '../l10n/app_localizations.dart';
 
 class TeacherCreateSessionScreen extends StatefulWidget {
   const TeacherCreateSessionScreen({super.key});
@@ -50,7 +51,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
         );
       }
     }
@@ -59,14 +60,14 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
   Future<void> _createAndStartSession() async {
     if (_nameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez entrer un nom'), backgroundColor: Colors.orange),
+        SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterName), backgroundColor: Colors.orange),
       );
       return;
     }
 
     if (_selectedCourse == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez sélectionner un parcours'), backgroundColor: Colors.orange),
+        SnackBar(content: Text(AppLocalizations.of(context)!.pleaseSelectRoute), backgroundColor: Colors.orange),
       );
       return;
     }
@@ -87,14 +88,14 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
         context.pop(session);
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Erreur lors de la création'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.creationError), backgroundColor: Colors.red),
         );
       }
     } catch (e) {
       setState(() => _isCreating = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
         );
       }
     }
@@ -104,7 +105,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Créer une course'),
+        title: Text(AppLocalizations.of(context)!.createSessionTitle),
         backgroundColor: const Color(0xFF00609C),
         foregroundColor: Colors.white,
       ),
@@ -117,20 +118,20 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                     children: [
                       const Icon(Icons.info_outline, size: 64, color: Colors.grey),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Aucun parcours prêt',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      Text(
+                        AppLocalizations.of(context)!.noReadyRoutes,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        'Vous devez d\'abord créer et placer\nles balises d\'un parcours',
+                      Text(
+                        AppLocalizations.of(context)!.needToPlaceBeacons,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: () => context.pop(),
-                        child: const Text('Retour'),
+                        child: Text(AppLocalizations.of(context)!.back),
                       ),
                     ],
                   ),
@@ -143,25 +144,25 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                       // Nom de la session
                       TextField(
                         controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Nom de la course',
-                          hintText: 'Ex: Course du 9 décembre',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.event),
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.sessionName,
+                          hintText: AppLocalizations.of(context)!.sessionNameHint,
+                          border: const OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.event),
                         ),
                       ),
                       
                       const SizedBox(height: 24),
                       
                       // Sélection du parcours
-                      const Text(
-                        'Sélectionner un parcours',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      Text(
+                        AppLocalizations.of(context)!.selectRoute,
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        'Parcours prêts (plus récents en premier)',
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      Text(
+                        AppLocalizations.of(context)!.readyRoutes,
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                       const SizedBox(height: 12),
                       
@@ -183,7 +184,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                               ),
                             ),
                             subtitle: Text(
-                              course.description ?? 'Pas de description',
+                              course.description ?? AppLocalizations.of(context)!.noDescription,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -209,7 +210,7 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
                             : const Icon(Icons.play_arrow),
-                        label: Text(_isCreating ? 'Création...' : 'Créer et lancer la course'),
+                        label: Text(_isCreating ? AppLocalizations.of(context)!.creating : AppLocalizations.of(context)!.createAndLaunch),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFF6731F),
                           foregroundColor: Colors.white,

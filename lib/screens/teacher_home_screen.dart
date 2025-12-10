@@ -7,6 +7,7 @@ import '../models/user.dart';
 import '../models/course.dart';
 import '../models/session.dart';
 import '../widgets/active_session_timer.dart';
+import '../l10n/app_localizations.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
   const TeacherHomeScreen({super.key});
@@ -50,16 +51,16 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Déconnexion'),
-        content: const Text('Voulez-vous vraiment vous déconnecter ?'),
+        title: Text(AppLocalizations.of(context)!.logoutConfirmTitle),
+        content: Text(AppLocalizations.of(context)!.logoutConfirmMessage),
         actions: [
           TextButton(
             onPressed: () => context.pop(false),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () => context.pop(true),
-            child: const Text('Déconnexion', style: TextStyle(color: Colors.red)),
+            child: Text(AppLocalizations.of(context)!.logout, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -78,9 +79,9 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text(
-          'Espace Professeur',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.teacherHomeTitle,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF00609C),
         elevation: 0,
@@ -88,7 +89,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: _handleLogout,
-            tooltip: 'Déconnexion',
+            tooltip: AppLocalizations.of(context)!.logout,
           ),
         ],
       ),
@@ -108,9 +109,9 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> with SingleTicker
           indicatorColor: const Color(0xFFF6731F),
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          tabs: const [
-            Tab(icon: Icon(Icons.directions_run), text: 'Courses'),
-            Tab(icon: Icon(Icons.map), text: 'Parcours'),
+          tabs: [
+            Tab(icon: const Icon(Icons.directions_run), text: AppLocalizations.of(context)!.coursesTab),
+            Tab(icon: const Icon(Icons.map), text: AppLocalizations.of(context)!.routesTab),
           ],
         ),
       ),
@@ -152,7 +153,7 @@ class _SessionsTabState extends State<SessionsTab> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
         );
       }
     }
@@ -170,14 +171,14 @@ class _SessionsTabState extends State<SessionsTab> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clôturer la session'),
+        title: Text(AppLocalizations.of(context)!.closeSession),
         content: Text(
-          'Voulez-vous vraiment clôturer la session "${session.sessionName}" ?\n\nCette action est irréversible.',
+          AppLocalizations.of(context)!.closeSessionConfirm(session.sessionName),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -185,7 +186,7 @@ class _SessionsTabState extends State<SessionsTab> {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Clôturer'),
+            child: Text(AppLocalizations.of(context)!.close),
           ),
         ],
       ),
@@ -195,16 +196,16 @@ class _SessionsTabState extends State<SessionsTab> {
       final success = await _sessionService.closeSession(session.id);
       if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✅ Session clôturée'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.sessionClosed),
             backgroundColor: Colors.green,
           ),
         );
         await _loadSessions();
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Erreur lors de la clôture'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.closeSessionError),
             backgroundColor: Colors.red,
           ),
         );
@@ -250,9 +251,9 @@ class _SessionsTabState extends State<SessionsTab> {
                           children: [
                             Icon(Icons.history, size: 80, color: const Color(0xFF00609C).withValues(alpha: 0.5)),
                             const SizedBox(height: 16),
-                            const Text(
-                              'Aucune course terminée',
-                              style: TextStyle(fontSize: 18, color: Color(0xFF00609C)),
+                            Text(
+                              AppLocalizations.of(context)!.noCompletedSessions,
+                              style: const TextStyle(fontSize: 18, color: Color(0xFF00609C)),
                             ),
                           ],
                         ),
@@ -289,9 +290,9 @@ class _SessionsTabState extends State<SessionsTab> {
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('${session.nbRunner} participant(s)'),
+                                    Text(AppLocalizations.of(context)!.participants(session.nbRunner)),
                                     Text(
-                                      'Durée: ${hours}h ${minutes}min',
+                                      AppLocalizations.of(context)!.duration(hours, minutes),
                                       style: const TextStyle(fontSize: 12, color: Colors.grey),
                                     ),
                                   ],
@@ -328,7 +329,7 @@ class _SessionsTabState extends State<SessionsTab> {
               child: ElevatedButton.icon(
                 onPressed: _createSession,
                 icon: const Icon(Icons.add, size: 28),
-                label: const Text('Créer une course'),
+                label: Text(AppLocalizations.of(context)!.createSession),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF6731F),
                   foregroundColor: Colors.white,
@@ -379,7 +380,7 @@ class _CoursesTabState extends State<CoursesTab> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
         );
       }
     }
@@ -407,17 +408,17 @@ class _CoursesTabState extends State<CoursesTab> {
   String _getStatusText(String status) {
     switch (status) {
       case 'draft':
-        return 'Brouillon';
+        return AppLocalizations.of(context)!.draft;
       case 'placement_ready':
-        return 'Placement en cours';
+        return AppLocalizations.of(context)!.placementInProgress;
       case 'ready':
-        return 'Prêt';
+        return AppLocalizations.of(context)!.ready;
       case 'in_progress':
-        return 'En cours';
+        return AppLocalizations.of(context)!.inProgress;
       case 'completed':
-        return 'Terminé';
+        return AppLocalizations.of(context)!.completed;
       case 'finished':
-        return 'Archivé';
+        return AppLocalizations.of(context)!.archived;
       default:
         return status;
     }
@@ -437,7 +438,7 @@ class _CoursesTabState extends State<CoursesTab> {
             Icon(Icons.inbox, size: 80, color: const Color(0xFF00609C).withOpacity(0.5)),
             const SizedBox(height: 16),
             Text(
-              'Aucun parcours',
+              AppLocalizations.of(context)!.noCourses,
               style: const TextStyle(fontSize: 18, color: Color(0xFF00609C)),
             ),
           ],
