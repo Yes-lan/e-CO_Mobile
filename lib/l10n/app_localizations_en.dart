@@ -45,7 +45,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teacherLoginTitle => 'Teacher Login';
 
   @override
-  String get teacherLoginSubtitle => 'Access your courses and sessions';
+  String get teacherLoginSubtitle => 'Access your routes and races';
 
   @override
   String get email => 'Email';

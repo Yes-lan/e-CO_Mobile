@@ -45,7 +45,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get teacherLoginTitle => 'Connexion Professeur';
 
   @override
-  String get teacherLoginSubtitle => 'Accédez à vos parcours et sessions';
+  String get teacherLoginSubtitle => 'Accédez à vos parcours et courses';
 
   @override
   String get email => 'Email';

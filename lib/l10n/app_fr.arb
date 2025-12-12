@@ -46,7 +46,7 @@
   },
   
   "teacherLoginTitle": "Connexion Professeur",
-  "teacherLoginSubtitle": "Accédez à vos parcours et sessions",
+  "teacherLoginSubtitle": "Accédez à vos parcours et courses",
   "email": "Email",
   "emailHint": "exemple@mail.com",
   "password": "Mot de passe",

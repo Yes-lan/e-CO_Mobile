@@ -175,7 +175,7 @@ abstract class AppLocalizations {
   /// No description provided for @teacherLoginSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Access your courses and sessions'**
+  /// **'Access your routes and races'**
   String get teacherLoginSubtitle;
 
   /// No description provided for @email.

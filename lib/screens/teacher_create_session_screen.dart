@@ -42,10 +42,13 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
       final readyCourses = courses
           .where((c) => c.status == 'ready')
           .toList();
+      // Trier par date de création décroissante
+      readyCourses.sort((a, b) => b.createAt.compareTo(a.createAt));
       
       setState(() {
         _readyCourses = readyCourses;
         _isLoading = false;
+        
       });
     } catch (e) {
       setState(() => _isLoading = false);
