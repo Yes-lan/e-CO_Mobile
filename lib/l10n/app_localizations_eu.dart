@@ -305,7 +305,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get enterCode => 'Kodea sartu';
 
   @override
-  String get enterSessionCode => 'Saioaren kodea sartu';
+  String get enterSessionCode => 'Sesio kodea sartu';
 
   @override
   String get scanBeaconTitle => 'Baliza eskaneatu';

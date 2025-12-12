@@ -46,13 +46,13 @@ class LocaleProvider extends ChangeNotifier {
   static String getLanguageName(Locale locale) {
     switch (locale.languageCode) {
       case 'fr':
-        return 'Français';
+        return 'FR';
       case 'en':
-        return 'English';
+        return 'EN';
       case 'eu':
-        return 'Euskara';
+        return 'EU';
       default:
-        return locale.languageCode;
+        return locale.languageCode.toUpperCase();
     }
   }
 
@@ -64,9 +64,19 @@ class LocaleProvider extends ChangeNotifier {
       case 'en':
         return '🇬🇧';
       case 'eu':
-        return '🏴'; // Drapeau basque (approximatif)
+        return ''; // Drapeau basque affichée comme image
       default:
         return '🌐';
+    }
+  }
+
+  /// Retourne le chemin de l'image du drapeau (si applicable)
+  static String? getFlagImagePath(Locale locale) {
+    switch (locale.languageCode) {
+      case 'eu':
+        return 'assets/images/flag_basque.png';
+      default:
+        return null;
     }
   }
 }

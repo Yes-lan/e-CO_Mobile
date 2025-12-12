@@ -95,6 +95,7 @@ class ChoiceScreen extends StatelessWidget {
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      constraints: const BoxConstraints(minWidth: 70),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -110,10 +111,7 @@ class ChoiceScreen extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<Locale>(
           value: currentLocale,
-          icon: const Icon(
-            Icons.arrow_drop_down,
-            color: Color(0xFF00609C),
-          ),
+          icon: const SizedBox.shrink(), // Cache l'icône par défaut
           style: const TextStyle(
             color: Color(0xFF00609C),
             fontSize: 14,
@@ -121,16 +119,46 @@ class ChoiceScreen extends StatelessWidget {
           ),
           dropdownColor: Colors.white,
           borderRadius: BorderRadius.circular(12),
+          // Affiche seulement le drapeau dans le bouton
+          selectedItemBuilder: (BuildContext context) {
+            return LocaleProvider.supportedLocales.map((Locale locale) {
+              final imagePath = LocaleProvider.getFlagImagePath(locale);
+              final flagEmoji = LocaleProvider.getLanguageFlag(locale);
+              
+              return Center(
+                child: imagePath != null
+                    ? Image.asset(
+                        imagePath,
+                        width: 24,
+                        height: 24,
+                      )
+                    : Text(
+                        flagEmoji,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+              );
+            }).toList();
+          },
           items: LocaleProvider.supportedLocales.map((Locale locale) {
+            final imagePath = LocaleProvider.getFlagImagePath(locale);
+            final flagEmoji = LocaleProvider.getLanguageFlag(locale);
+            
             return DropdownMenuItem<Locale>(
               value: locale,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    LocaleProvider.getLanguageFlag(locale),
-                    style: const TextStyle(fontSize: 20),
-                  ),
+                  if (imagePath != null)
+                    Image.asset(
+                      imagePath,
+                      width: 24,
+                      height: 24,
+                    )
+                  else
+                    Text(
+                      flagEmoji,
+                      style: const TextStyle(fontSize: 20),
+                    ),
                   const SizedBox(width: 8),
                   Text(LocaleProvider.getLanguageName(locale)),
                 ],
