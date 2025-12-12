@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:go_router/go_router.dart';
 import '../services/beacon_service.dart';
 import '../models/beacon.dart';
+import '../l10n/app_localizations.dart';
 
 class ParticipantScanScreen extends StatefulWidget {
   const ParticipantScanScreen({super.key});
@@ -47,10 +48,10 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
           _showNameDialog(beacon);
         }
       } else {
-        _showError('Ce QR code ne correspond pas à une balise de départ');
+        _showError(AppLocalizations.of(context)!.notStartBeacon);
       }
     } catch (e) {
-      _showError('Erreur lors du scan: $e');
+      _showError(AppLocalizations.of(context)!.scanError(e));
     } finally {
       setState(() => _isProcessing = false);
     }
@@ -63,12 +64,12 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('Entrez votre pseudo'),
+        title: Text(AppLocalizations.of(context)!.enterYourName),
         content: TextField(
           controller: nameController,
-          decoration: const InputDecoration(
-            hintText: 'Votre nom',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            hintText: AppLocalizations.of(context)!.yourName,
+            border: const OutlineInputBorder(),
           ),
           autofocus: true,
         ),
@@ -77,7 +78,7 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
             onPressed: () {
               context.pop();
             },
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -90,7 +91,7 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFF6731F),
             ),
-            child: const Text('Valider'),
+            child: Text(AppLocalizations.of(context)!.validate),
           ),
         ],
       ),
@@ -132,7 +133,7 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Scanner la balise'),
+          title: Text(AppLocalizations.of(context)!.scanBeaconTitle),
           backgroundColor: const Color(0xFFF6731F),
           foregroundColor: Colors.white,
           leading: IconButton(
@@ -159,10 +160,10 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
                 color: Colors.black.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text(
-                'Placez le QR code de la balise\nde départ dans le cadre',
+              child: Text(
+                AppLocalizations.of(context)!.placeQRCodeInFrame,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),

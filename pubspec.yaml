@@ -46,8 +46,10 @@ dependencies:
   google_maps_flutter: ^2.14.0
   flutter_svg: ^2.2.3
   cached_network_image: ^3.4.1
-  intl: ^0.20.2
+  intl: any
   logger: ^2.6.2
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +75,7 @@ flutter_launcher_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

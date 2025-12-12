@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'screens/splash_screen.dart';
 import 'screens/choice_screen.dart';
 import 'screens/teacher_login_screen.dart';
@@ -13,32 +15,56 @@ import 'screens/participant_race_screen.dart';
 import 'models/course.dart';
 import 'models/beacon.dart';
 import 'models/session.dart';
+import 'providers/locale_provider.dart';
+import 'l10n/app_localizations.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final localeProvider = LocaleProvider();
+  await localeProvider.loadLocale();
+  
+  runApp(MyApp(localeProvider: localeProvider));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final LocaleProvider localeProvider;
+  
+  const MyApp({super.key, required this.localeProvider});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'eCO - Course d\'Orientation',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00609C),
-          primary: const Color(0xFF00609C),
-          secondary: const Color(0xFFF6731F),
-        ),
-        useMaterial3: true,
-        fontFamily: 'Roboto',
+    return ChangeNotifierProvider.value(
+      value: localeProvider,
+      child: Consumer<LocaleProvider>(
+        builder: (context, localeProvider, child) {
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color(0xFF00609C),
+                primary: const Color(0xFF00609C),
+                secondary: const Color(0xFFF6731F),
+              ),
+              useMaterial3: true,
+              fontFamily: 'Roboto',
+            ),
+            locale: localeProvider.locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: LocaleProvider.supportedLocales,
+            routerConfig: _router,
+          );
+        },
       ),
-      routerConfig: _router,
     );
   }
 }
+
+
 
 final GoRouter _router = GoRouter(
   initialLocation: '/',

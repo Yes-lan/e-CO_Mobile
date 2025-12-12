@@ -7,6 +7,8 @@ import '../services/session_service.dart';
 import '../models/user.dart';
 import '../models/course.dart';
 import '../models/session.dart';
+import '../widgets/active_session_timer.dart';
+import '../l10n/app_localizations.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
   const TeacherHomeScreen({super.key});
@@ -52,19 +54,16 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Déconnexion'),
-        content: const Text('Voulez-vous vraiment vous déconnecter ?'),
+        title: Text(AppLocalizations.of(context)!.logoutConfirmTitle),
+        content: Text(AppLocalizations.of(context)!.logoutConfirmMessage),
         actions: [
           TextButton(
             onPressed: () => context.pop(false),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () => context.pop(true),
-            child: const Text(
-              'Déconnexion',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: Text(AppLocalizations.of(context)!.logout, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -83,9 +82,9 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text(
-          'Espace Professeur',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.teacherHomeTitle,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF00609C),
         elevation: 0,
@@ -93,7 +92,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: _handleLogout,
-            tooltip: 'Déconnexion',
+            tooltip: AppLocalizations.of(context)!.logout,
           ),
         ],
       ),
@@ -533,7 +532,7 @@ class _SessionsTabState extends State<SessionsTab> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
         );
       }
     }
@@ -543,14 +542,14 @@ class _SessionsTabState extends State<SessionsTab> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clôturer la session'),
+        title: Text(AppLocalizations.of(context)!.closeSession),
         content: Text(
-          'Voulez-vous vraiment clôturer la session "${session.sessionName}" ?\n\nCette action est irréversible.',
+          AppLocalizations.of(context)!.closeSessionConfirm(session.sessionName),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -558,7 +557,7 @@ class _SessionsTabState extends State<SessionsTab> {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Clôturer'),
+            child: Text(AppLocalizations.of(context)!.close),
           ),
         ],
       ),
@@ -568,16 +567,16 @@ class _SessionsTabState extends State<SessionsTab> {
       final success = await _sessionService.closeSession(session.id);
       if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✅ Session clôturée'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.sessionClosed),
             backgroundColor: Colors.green,
           ),
         );
         await _loadSessions();
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Erreur lors de la clôture'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.closeSessionError),
             backgroundColor: Colors.red,
           ),
         );
@@ -705,7 +704,7 @@ class _CoursesTabState extends State<CoursesTab> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
         );
       }
     }
@@ -733,17 +732,17 @@ class _CoursesTabState extends State<CoursesTab> {
   String _getStatusText(String status) {
     switch (status) {
       case 'draft':
-        return 'Brouillon';
+        return AppLocalizations.of(context)!.draft;
       case 'placement_ready':
-        return 'Placement en cours';
+        return AppLocalizations.of(context)!.placementInProgress;
       case 'ready':
-        return 'Prêt';
+        return AppLocalizations.of(context)!.ready;
       case 'in_progress':
-        return 'En cours';
+        return AppLocalizations.of(context)!.inProgress;
       case 'completed':
-        return 'Terminé';
+        return AppLocalizations.of(context)!.completed;
       case 'finished':
-        return 'Archivé';
+        return AppLocalizations.of(context)!.archived;
       default:
         return status;
     }
@@ -767,7 +766,7 @@ class _CoursesTabState extends State<CoursesTab> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Aucun parcours',
+              AppLocalizations.of(context)!.noCourses,
               style: const TextStyle(fontSize: 18, color: Color(0xFF00609C)),
             ),
           ],

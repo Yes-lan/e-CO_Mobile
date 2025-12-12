@@ -1,0 +1,167 @@
+{
+  "@@locale": "eu",
+  "welcome": "Ongi etorri",
+  "@welcome": {
+    "description": "Aukera pantailako ongi etorri mezua"
+  },
+  "chooseProfile": "Aukeratu zure profila",
+  "@chooseProfile": {
+    "description": "Profil mota bat hautatzeko argibidea"
+  },
+  "teacher": "Irakaslea",
+  "@teacher": {
+    "description": "Irakasle profilaren aukera"
+  },
+  "teacherDescription": "Kudeatu ibilbideak eta lasaiketa-probak",
+  "@teacherDescription": {
+    "description": "Irakasle profilaren ezaugarrien deskribapena"
+  },
+  "participant": "Parte-hartzailea",
+  "@participant": {
+    "description": "Parte-hartzaile profilaren aukera"
+  },
+  "participantDescription": "Probara batu",
+  "@participantDescription": {
+    "description": "Parte-hartzaile profilaren ezaugarrien deskribapena"
+  },
+  "appTitle": "eCO - Orientazio Lasterketa",
+  "@appTitle": {
+    "description": "Aplikazioaren izenburua"
+  },
+  "french": "Frantsesa",
+  "@french": {
+    "description": "Frantses hizkuntzaren aukera"
+  },
+  "english": "Ingelesa",
+  "@english": {
+    "description": "Ingeles hizkuntzaren aukera"
+  },
+  "basque": "Euskara",
+  "@basque": {
+    "description": "Euskararen aukera"
+  },
+  "selectLanguage": "Hizkuntza hautatu",
+  "@selectLanguage": {
+    "description": "Hizkuntza hautatzailearen etiketa"
+  },
+  
+  "teacherLoginTitle": "Irakaslearen saioa hasi",
+  "teacherLoginSubtitle": "Sartu zure ibilbide eta saioetara",
+  "email": "E-posta",
+  "emailHint": "adibidea@posta.eus",
+  "password": "Pasahitza",
+  "pleaseEnterEmail": "Mesedez, sartu zure e-posta",
+  "invalidEmail": "E-posta baliogabea",
+  "pleaseEnterPassword": "Mesedez, sartu zure pasahitza",
+  "passwordMinLength": "Pasahitzak gutxienez 6 karaktere izan behar ditu",
+  "loginButton": "Saioa hasi",
+  "loginError": "Saioa hasteko errorea",
+  "error": "Errorea: {message}",
+  
+  "teacherHomeTitle": "Irakaslearen gunea",
+  "logout": "Saioa itxi",
+  "logoutConfirmTitle": "Saioa itxi",
+  "logoutConfirmMessage": "Benetan saioa itxi nahi duzu?",
+  "cancel": "Ezeztatu",
+  "coursesTab": "Probak",
+  "routesTab": "Ibilbideak",
+  "sessionClosed": "✅ Saioa itxita",
+  "closeSessionError": "Errorea ixtean",
+  "noCompletedSessions": "Ez dago amaitutako probarik",
+  "participants": "{count} parte-hartzaile",
+  "duration": "Iraupena: {hours}h {minutes}min",
+  "createSession": "Proba sortu",
+  "closeSession": "Saioa itxi",
+  "closeSessionConfirm": "Benetan \"{name}\" saioa itxi nahi duzu?\n\nEkintza hau itzulezina da.",
+  "close": "Itxi",
+  "noCourses": "Ez dago ibilbiderik",
+  "draft": "Zirriborroa",
+  "placementInProgress": "Kokapena abian",
+  "ready": "Prest",
+  "inProgress": "Abian",
+  "completed": "Amaituta",
+  "archived": "Artxibatuta",
+  
+  "createSessionTitle": "Proba sortu",
+  "sessionName": "Probaren izena",
+  "sessionNameHint": "Ad: Abenduaren 9ko proba",
+  "selectRoute": "Ibilbidea hautatu",
+  "readyRoutes": "Ibilbide prest (berriena lehenik)",
+  "pleaseEnterName": "Mesedez, sartu izena",
+  "pleaseSelectRoute": "Mesedez, hautatu ibilbidea",
+  "noReadyRoutes": "Ez dago ibilbiderik prest",
+  "needToPlaceBeacons": "Lehenik ibilbide baten\nbalizak sortu eta kokatu behar dituzu",
+  "back": "Atzera",
+  "noDescription": "Deskribapenik ez",
+  "createAndLaunch": "Proba sortu eta abiarazi",
+  "creating": "Sortzen...",
+  "creationError": "Errorea sortzean",
+  
+  "beaconsPlaced": "{placed}/{total} baliza kokatuak",
+  "scanner": "Eskaneatu",
+  "beacons": "Balizak",
+  "start": "Abiapuntua",
+  "finish": "Helmuga",
+  "controlBeacons": "Kontrol balizak",
+  "confirmPlacement": "Kokapen berretsi",
+  "beacon": "Baliza: {name}",
+  "gpsPosition": "GPS kokapena:",
+  "confirm": "Berretsi",
+  "beaconPlaced": "✅ {name} kokatuta",
+  "placementError": "Errorea kokatzean",
+  "allBeaconsPlaced": "✅ Baliza guztiak kokatuak! Ibilbidea prest.",
+  "gpsDisabled": "GPSa desaktibatuta dago. Mesedez, aktibatu ezazu.",
+  "locationPermissionDenied": "Kokapen baimena ukatuta",
+  "locationPermissionDeniedForever": "Kokapen baimena behin betiko ukatuta.",
+  "alreadyPlaced": "Baliza hau dagoeneko kokatuta dago",
+  "cannotGetPreciseLocation": "Ezin da GPS kokapen zehatza lortu",
+  "scanQRCode": "Eskaneatu balizaren QR kodea",
+  "precisePositioning": "Kokapen zehatza abian",
+  "type": "Mota: {type}",
+  "status": "Egoera: {status}",
+  "placed": "✅ Kokatuta",
+  "toPlace": "⏳ Kokatzeko",
+  "placedOn": "Kokatuta: {date}",
+  "closeButton": "Itxi",
+  
+  "joinSession": "Probara batu",
+  "chooseJoinMethod": "Aukeratu nola batu",
+  "scanQRCodeButton": "QR kodea eskaneatu",
+  "scanStartBeacon": "Abiapuntuko baliza eskaneatu",
+  "enterCode": "Kodea sartu",
+  "enterSessionCode": "Sesio kodea sartu",
+  
+  "scanBeaconTitle": "Baliza eskaneatu",
+  "enterYourName": "Sartu zure ezizena",
+  "yourName": "Zure izena",
+  "validate": "Balioztatu",
+  "placeQRCodeInFrame": "Jarri abiapuntuko balizaren\nQR kodea esparru honetan",
+  "notStartBeacon": "QR kode hau ez dator bat abiapuntuko balizarekin",
+  "scanError": "Errorea eskaneatzerakoan: {error}",
+  
+  "enterCodeTitle": "Kodea sartu",
+  "enterCodeSubtitle": "Sartu probaren kodea",
+  "sessionCode": "Probaren kodea",
+  "sessionCodeHint": "Ad: ABC123",
+  "yourPseudo": "Zure ezizena",
+  "yourPseudoHint": "Ad: Jon",
+  "pleaseEnterPseudo": "Mesedez, sartu zure ezizena",
+  "pleaseEnterCode": "Mesedez, sartu kodea",
+  "invalidSessionCode": "Saio kode baliogabea",
+  "join": "Batu",
+  
+  "raceTitle": "Proba - {name}",
+  "progress": "Aurrerapena",
+  "beaconsCount": "{scanned} / {total} baliza",
+  "scanBeacon": "Baliza eskaneatu",
+  "congratulations": "🎉 Zorionak!",
+  "raceCompleted": "Proba osatu duzu!",
+  "finish": "Amaitu",
+  "alreadyScanned": "Baliza dagoeneko eskaneatuta",
+  "beaconScanned": "{name} baliza eskaneatuta ✓",
+  "arrival": "Helmuga",
+  "departure": "Abiapuntua",
+  "beaconLabel": "Baliza",
+  "scanned": "Eskaneatuta ✓",
+  "toScan": "Eskaneatzeko"
+}

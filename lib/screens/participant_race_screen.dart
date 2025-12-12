@@ -10,6 +10,7 @@ import '../models/runner.dart';
 import '../services/runner_service.dart';
 import '../services/beacon_service.dart';
 import '../services/log_session_service.dart';
+import '../l10n/app_localizations.dart';
 
 class ParticipantRaceScreen extends StatefulWidget {
   final Beacon? beacon;
@@ -75,7 +76,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -172,7 +173,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
       print('Balise trouvée: ${beacon.name}');
       
       if (_scannedBeacons.contains(scannedWaypointId.toString())) {
-        _showMessage('Balise déjà scannée', Colors.orange);
+        _showMessage(AppLocalizations.of(context)!.alreadyScanned, Colors.orange);
         return;
       }
       
@@ -191,7 +192,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
           _updateMarkers();
         });
         
-        _showMessage('Balise ${beacon.name} scannée ✓', Colors.green);
+        _showMessage(AppLocalizations.of(context)!.beaconScanned(beacon.name), Colors.green);
         
         // Si c'est la balise d'arrivée, terminer la course
         if (beacon.isEnd || scannedType == 'FINISH' || scannedType == 'START_FINISH') {
@@ -214,8 +215,8 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
           context: context,
           barrierDismissible: false,
           builder: (context) => AlertDialog(
-            title: const Text('🎉 Félicitations !'),
-            content: const Text('Vous avez terminé la course !'),
+            title: Text(AppLocalizations.of(context)!.congratulations),
+            content: Text(AppLocalizations.of(context)!.raceCompleted),
             actions: [
               ElevatedButton(
                 onPressed: () {
@@ -224,7 +225,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF6731F),
                 ),
-                child: const Text('Terminer'),
+                child: Text(AppLocalizations.of(context)!.finish),
               ),
             ],
           ),
@@ -249,7 +250,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Course - ${widget.runnerName}'),
+        title: Text(AppLocalizations.of(context)!.raceTitle(widget.runnerName)),
         backgroundColor: const Color(0xFFF6731F),
         foregroundColor: Colors.white,
         actions: [
@@ -266,7 +267,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
         onPressed: _scanBeacon,
         backgroundColor: const Color(0xFFF6731F),
         icon: const Icon(Icons.qr_code_scanner),
-        label: const Text('Scanner balise'),
+        label: Text(AppLocalizations.of(context)!.scanBeacon),
       ),
     );
   }
@@ -296,9 +297,9 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                const Text(
-                  'Progression',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Text(
+                  AppLocalizations.of(context)!.progress,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
                 LinearProgressIndicator(
@@ -311,7 +312,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${_scannedBeacons.length} / ${_beacons.length} balises',
+                  AppLocalizations.of(context)!.beaconsCount(_scannedBeacons.length, _beacons.length),
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
@@ -321,9 +322,9 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
         const SizedBox(height: 16),
         
         // Liste des balises
-        const Text(
-          'Balises',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        Text(
+          AppLocalizations.of(context)!.beacons,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         ..._beacons.map((beacon) {
@@ -345,10 +346,10 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
               ),
               subtitle: Text(
                 beacon.isStart
-                    ? 'Départ'
+                    ? AppLocalizations.of(context)!.departure
                     : beacon.isEnd
-                        ? 'Arrivée'
-                        : 'Balise',
+                        ? AppLocalizations.of(context)!.arrival
+                        : AppLocalizations.of(context)!.beaconLabel,
               ),
               trailing: isScanned
                   ? const Icon(Icons.done, color: Colors.green)
@@ -393,7 +394,7 @@ class _QRScannerViewState extends State<_QRScannerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scanner la balise'),
+        title: Text(AppLocalizations.of(context)!.scanBeaconTitle),
         backgroundColor: const Color(0xFFF6731F),
         foregroundColor: Colors.white,
       ),

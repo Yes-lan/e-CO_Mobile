@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../l10n/app_localizations.dart';
 
 class ParticipantJoinScreen extends StatelessWidget {
   const ParticipantJoinScreen({super.key});
@@ -39,20 +40,20 @@ class ParticipantJoinScreen extends StatelessWidget {
               const SizedBox(height: 24),
               
               // Titre
-              const Text(
-                'Rejoindre une course',
+              Text(
+                AppLocalizations.of(context)!.joinSession,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFF6731F),
                 ),
               ),
               const SizedBox(height: 12),
-              const Text(
-                'Choisissez comment rejoindre',
+              Text(
+                AppLocalizations.of(context)!.chooseJoinMethod,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
                 ),
@@ -63,8 +64,8 @@ class ParticipantJoinScreen extends StatelessWidget {
               _buildJoinButton(
                 context,
                 icon: Icons.qr_code_scanner,
-                title: 'Scanner le QR Code',
-                subtitle: 'Scannez la balise de départ',
+                title: AppLocalizations.of(context)!.scanQRCodeButton,
+                subtitle: AppLocalizations.of(context)!.scanStartBeacon,
                 onTap: () => context.go('/participant-scan'),
               ),
               
@@ -74,8 +75,8 @@ class ParticipantJoinScreen extends StatelessWidget {
               _buildJoinButton(
                 context,
                 icon: Icons.keyboard,
-                title: 'Entrer le code',
-                subtitle: 'Saisir le code de session',
+                title: AppLocalizations.of(context)!.enterCode,
+                subtitle: AppLocalizations.of(context)!.enterSessionCode,
                 onTap: () => context.go('/participant-enter-code'),
               ),
             ],
