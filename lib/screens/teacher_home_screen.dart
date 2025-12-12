@@ -158,6 +158,7 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
     }
     try {
       final sessions = await _sessionService.getActiveSessions();
+      sessions.sort((a, b) => b.sessionStart!.compareTo(a.sessionStart!));
       if (mounted) {
         setState(() {
           _activeSessions = sessions;
