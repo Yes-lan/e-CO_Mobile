@@ -21,18 +21,26 @@ class Session {
   bool get isCompleted => sessionEnd != null;
 
   factory Session.fromJson(Map<String, dynamic> json) {
+    DateTime? parseDateTime(String? dateStr) {
+      if (dateStr == null) return null;
+      try {
+        // Format: "2025-12-11 00:33:46" - parser comme heure locale
+        final date = DateTime.parse(dateStr.replaceAll(' ', 'T'));
+        return date;
+      } catch (e) {
+        print('⚠️ Erreur parsing date: $dateStr - $e');
+        return null;
+      }
+    }
+
     return Session(
       id: json['id'] as int,
       sessionName: (json['sessionName'] ?? json['name']) as String,
       nbRunner: (json['nbRunner'] ?? json['nbRunners'] ?? 0) as int,
-      courseId: json['course']?['id'] as int?,
-      courseName: json['course']?['name'] as String?,
-      sessionStart: json['sessionStart'] != null 
-          ? DateTime.parse(json['sessionStart'] as String)
-          : null,
-      sessionEnd: json['sessionEnd'] != null
-          ? DateTime.parse(json['sessionEnd'] as String)
-          : null,
+      courseId: (json['course'] ?? json['parcours'])?['id'] as int?,
+      courseName: (json['course'] ?? json['parcours'])?['name'] as String?,
+      sessionStart: parseDateTime(json['sessionStart'] ?? json['startDate']),
+      sessionEnd: parseDateTime(json['sessionEnd'] ?? json['endDate']),
     );
   }
 
