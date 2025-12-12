@@ -26,7 +26,6 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
   late TabController _tabController;
   User? _currentUser;
   bool _isLoading = true;
-  int _activeSessionsKey = 0; // Clé pour forcer le rebuild
 
   @override
   void initState() {
@@ -42,12 +41,16 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
   }
 
   Future<void> _loadUserData() async {
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
     final user = await _authService.getSavedUser();
-    setState(() {
-      _currentUser = user;
-      _isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _currentUser = user;
+        _isLoading = false;
+      });
+    }
   }
 
   Future<void> _handleLogout() async {
@@ -63,7 +66,10 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
           ),
           TextButton(
             onPressed: () => context.pop(true),
-            child: Text(AppLocalizations.of(context)!.logout, style: const TextStyle(color: Colors.red)),
+            child: Text(
+              AppLocalizations.of(context)!.logout,
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -84,7 +90,10 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.teacherHomeTitle,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: const Color(0xFF00609C),
         elevation: 0,
@@ -100,17 +109,10 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
           ? const Center(child: CircularProgressIndicator())
           : TabBarView(
               controller: _tabController,
-              children: [
-                const CoursesTab(),
-                ActiveSessionsTab(
-                  key: ValueKey(_activeSessionsKey),
-                  onRefresh: () {
-                    setState(() {
-                      _activeSessionsKey++;
-                    });
-                  },
-                ),
-                const SessionsTab(),
+              children: const [
+                CoursesTab(),
+                ActiveSessionsTab(),
+                SessionsTab(),
               ],
             ),
       bottomNavigationBar: Container(
@@ -133,9 +135,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
 
 // Tab Courses Actives (En cours)
 class ActiveSessionsTab extends StatefulWidget {
-  final VoidCallback? onRefresh;
-
-  const ActiveSessionsTab({super.key, this.onRefresh});
+  const ActiveSessionsTab({super.key});
 
   @override
   State<ActiveSessionsTab> createState() => _ActiveSessionsTabState();
@@ -153,17 +153,23 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
   }
 
   Future<void> _loadActiveSessions() async {
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
     try {
       final sessions = await _sessionService.getActiveSessions();
-      setState(() {
-        _activeSessions = sessions;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _activeSessions = sessions;
+          _isLoading = false;
+        });
+      }
       print('✅ ${_activeSessions.length} courses actives chargées');
     } catch (e) {
       print('❌ Erreur chargement courses actives: $e');
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -257,11 +263,11 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                     final result = await context.push(
                       '/teacher-create-session',
                     );
-                    // Recharger en forçant un rebuild complet
+                    // Recharger les données
                     print('🔄 Retour création course, result: $result');
                     await Future.delayed(const Duration(milliseconds: 300));
                     if (mounted) {
-                      widget.onRefresh?.call();
+                      _loadActiveSessions();
                     }
                   },
                   icon: const Icon(Icons.add, size: 28),
@@ -436,7 +442,7 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                               ),
                             ),
                           ],
-                  ),
+                        ),
                       ],
                     ),
                   ),
@@ -464,10 +470,10 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
               child: ElevatedButton.icon(
                 onPressed: () async {
                   final result = await context.push('/teacher-create-session');
-                  // Forcer un rebuild complet
+                  // Recharger les données
                   await Future.delayed(const Duration(milliseconds: 300));
                   if (mounted) {
-                    widget.onRefresh?.call();
+                    _loadActiveSessions();
                   }
                 },
                 icon: const Icon(Icons.add, size: 28),
@@ -518,21 +524,28 @@ class _SessionsTabState extends State<SessionsTab> {
   }
 
   Future<void> _loadSessions() async {
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
     try {
       final sessions = await _sessionService.getSessions();
-      setState(() {
-        // Afficher uniquement les courses terminées (sessionEnd != null)
-        _sessions = sessions.where((s) => s.sessionEnd != null).toList();
-        _activeSessions = sessions.where((s) => s.isActive).toList();
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          // Afficher uniquement les courses terminées (sessionEnd != null)
+          _sessions = sessions.where((s) => s.sessionEnd != null).toList();
+          _activeSessions = sessions.where((s) => s.isActive).toList();
+          _isLoading = false;
+        });
+      }
       print('📋 ${_sessions.length} courses terminées chargées');
     } catch (e) {
-      setState(() => _isLoading = false);
       if (mounted) {
+        setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.error(e)),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -544,7 +557,9 @@ class _SessionsTabState extends State<SessionsTab> {
       builder: (context) => AlertDialog(
         title: Text(AppLocalizations.of(context)!.closeSession),
         content: Text(
-          AppLocalizations.of(context)!.closeSessionConfirm(session.sessionName),
+          AppLocalizations.of(
+            context,
+          )!.closeSessionConfirm(session.sessionName),
         ),
         actions: [
           TextButton(
@@ -693,18 +708,25 @@ class _CoursesTabState extends State<CoursesTab> {
   }
 
   Future<void> _loadCourses() async {
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
     try {
       final courses = await _courseService.getCourses();
-      setState(() {
-        _courses = courses;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() => _isLoading = false);
       if (mounted) {
+        setState(() {
+          _courses = courses;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.error(e)), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.error(e)),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -831,8 +853,10 @@ class _CoursesTabState extends State<CoursesTab> {
               onTap: () async {
                 // Point 4: Attendre le retour et recharger les cours
                 await context.push('/teacher-course-placement', extra: course);
-                // Recharger la liste apr\u00e8s le retour
-                _loadCourses();
+                // Recharger la liste après le retour seulement si le widget est toujours monté
+                if (mounted) {
+                  _loadCourses();
+                }
               },
             ),
           );
@@ -861,9 +885,9 @@ class _SimpleTimerState extends State<_SimpleTimer> {
     super.initState();
     _updateTime();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) {
-        _updateTime();
-      }
+      // Double vérification pour éviter les appels après dispose
+      if (!mounted) return;
+      _updateTime();
     });
   }
 

@@ -200,7 +200,7 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String beaconsPlaced(Object placed, Object total) {
-    return '$placed/$total balizak kokatuak';
+    return '$placed/$total baliza kokatuak';
   }
 
   @override
@@ -210,7 +210,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get beacons => 'Balizak';
 
   @override
-  String get start => 'Hasi';
+  String get start => 'Abiapuntua';
 
   @override
   String get finish => 'Amaitu';
@@ -241,7 +241,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get placementError => 'Errorea kokatzean';
 
   @override
-  String get allBeaconsPlaced => '✅ Balizak guztiak kokatuak! Ibilbidea prest.';
+  String get allBeaconsPlaced => '✅ Baliza guztiak kokatuak! Ibilbidea prest.';
 
   @override
   String get gpsDisabled => 'GPSa desaktibatuta dago. Mesedez, aktibatu ezazu.';
@@ -260,7 +260,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get cannotGetPreciseLocation => 'Ezin da GPS kokapen zehatza lortu';
 
   @override
-  String get scanQRCode => 'Eskaneatu balizaren QR kode';
+  String get scanQRCode => 'Eskaneatu balizaren QR kodea';
 
   @override
   String get precisePositioning => 'Kokapen zehatza abian';
@@ -296,19 +296,19 @@ class AppLocalizationsEu extends AppLocalizations {
   String get chooseJoinMethod => 'Aukeratu nola batu';
 
   @override
-  String get scanQRCodeButton => 'QR kode eskaneatu';
+  String get scanQRCodeButton => 'QR kodea eskaneatu';
 
   @override
-  String get scanStartBeacon => 'Abiapuntuko baliza skanatu';
+  String get scanStartBeacon => 'Abiapuntuko baliza eskaneatu';
 
   @override
-  String get enterCode => 'Kode sartu';
+  String get enterCode => 'Kodea sartu';
 
   @override
-  String get enterSessionCode => 'Sesio kode sartu';
+  String get enterSessionCode => 'Sesio kodea sartu';
 
   @override
-  String get scanBeaconTitle => 'Baliza skanatu';
+  String get scanBeaconTitle => 'Baliza eskaneatu';
 
   @override
   String get enterYourName => 'Sartu zure ezizena';
@@ -321,7 +321,7 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String get placeQRCodeInFrame =>
-      'Jarri abiapuntuko balizaren\nQR kode esparru honetan';
+      'Jarri abiapuntuko balizaren\nQR kodea esparru honetan';
 
   @override
   String get notStartBeacon =>
@@ -333,13 +333,13 @@ class AppLocalizationsEu extends AppLocalizations {
   }
 
   @override
-  String get enterCodeTitle => 'Kode sartu';
+  String get enterCodeTitle => 'Kodea sartu';
 
   @override
-  String get enterCodeSubtitle => 'Sartu probaren kode';
+  String get enterCodeSubtitle => 'Sartu probaren kodea';
 
   @override
-  String get sessionCode => 'Probaren kode';
+  String get sessionCode => 'Probaren kodea';
 
   @override
   String get sessionCodeHint => 'Ad: ABC123';
@@ -354,7 +354,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get pleaseEnterPseudo => 'Mesedez, sartu zure ezizena';
 
   @override
-  String get pleaseEnterCode => 'Mesedez, sartu kode';
+  String get pleaseEnterCode => 'Mesedez, sartu kodea';
 
   @override
   String get invalidSessionCode => 'Saio kode baliogabea';
@@ -364,7 +364,7 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String raceTitle(Object name) {
-    return 'Korrika - $name';
+    return 'Proba - $name';
   }
 
   @override
@@ -372,24 +372,24 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String beaconsCount(Object scanned, Object total) {
-    return '$scanned / $total balizak';
+    return '$scanned / $total baliza';
   }
 
   @override
-  String get scanBeacon => 'Baliza skanatu';
+  String get scanBeacon => 'Baliza eskaneatu';
 
   @override
   String get congratulations => '🎉 Zorionak!';
 
   @override
-  String get raceCompleted => 'Korrika osatu duzu!';
+  String get raceCompleted => 'Proba osatu duzu!';
 
   @override
-  String get alreadyScanned => 'Baliza dagoeneko skanatuta';
+  String get alreadyScanned => 'Baliza dagoeneko eskaneatuta';
 
   @override
   String beaconScanned(Object name) {
-    return '$name baliza skanatuta ✓';
+    return '$name baliza eskaneatuta ✓';
   }
 
   @override
@@ -402,8 +402,8 @@ class AppLocalizationsEu extends AppLocalizations {
   String get beaconLabel => 'Baliza';
 
   @override
-  String get scanned => 'Skanatuta ✓';
+  String get scanned => 'Eskaneatuta ✓';
 
   @override
-  String get toScan => 'Skanatzeko';
+  String get toScan => 'Eskaneatzeko';
 }
