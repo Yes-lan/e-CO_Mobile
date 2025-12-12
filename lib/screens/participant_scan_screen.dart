@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:go_router/go_router.dart';
 import '../services/beacon_service.dart';
 import '../models/beacon.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class ParticipantScanScreen extends StatefulWidget {
@@ -140,6 +141,10 @@ class _ParticipantScanScreenState extends State<ParticipantScanScreen> {
             icon: const Icon(Icons.arrow_back),
             onPressed: () => context.go('/participant-join'),
           ),
+          actions: const [
+            SizedBox(width: 8),
+            LanguageSelectorWidget(mode: 'appBar'),
+          ],
         ),
         body: Stack(
         children: [

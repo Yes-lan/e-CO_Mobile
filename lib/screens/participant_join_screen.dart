@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class ParticipantJoinScreen extends StatelessWidget {
@@ -23,13 +24,17 @@ class ParticipantJoinScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back, color: Color(0xFFF6731F)),
             onPressed: () => context.go('/choice'),
           ),
+          actions: const [
+            LanguageSelectorWidget(mode: 'appBar'),
+            SizedBox(width: 8),
+          ],
         ),
         body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Icône
               const Icon(
@@ -82,7 +87,7 @@ class ParticipantJoinScreen extends StatelessWidget {
             ],
           ),
         ),
-      ), // Fin Padding
+      ), // Fin SafeArea
     ), // Fin Scaffold
     ); // Fin GestureDetector
   }

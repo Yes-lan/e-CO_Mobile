@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../models/course.dart';
 import '../services/course_service.dart';
 import '../services/session_service.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class TeacherCreateSessionScreen extends StatefulWidget {
@@ -108,6 +109,10 @@ class _TeacherCreateSessionScreenState extends State<TeacherCreateSessionScreen>
         title: Text(AppLocalizations.of(context)!.createSessionTitle),
         backgroundColor: const Color(0xFF00609C),
         foregroundColor: Colors.white,
+        actions: const [
+          SizedBox(width: 8),
+          LanguageSelectorWidget(mode: 'appBar'),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

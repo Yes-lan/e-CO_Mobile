@@ -8,6 +8,7 @@ import '../models/user.dart';
 import '../models/course.dart';
 import '../models/session.dart';
 import '../widgets/active_session_timer.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
@@ -89,6 +90,8 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
         backgroundColor: const Color(0xFF00609C),
         elevation: 0,
         actions: [
+          const LanguageSelectorWidget(mode: 'appBar'),
+          const SizedBox(width: 8),
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: _handleLogout,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/session_service.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class ParticipantEnterCodeScreen extends StatefulWidget {
@@ -83,13 +84,17 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
             icon: const Icon(Icons.arrow_back, color: Color(0xFFF6731F)),
             onPressed: () => context.go('/participant-join'),
           ),
+          actions: const [
+            LanguageSelectorWidget(mode: 'appBar'),
+            SizedBox(width: 8),
+          ],
         ),
         body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20),
@@ -214,7 +219,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
             ),
           ),
         ),
-      ), // Fin SingleChildScrollView
+      ), // Fin SafeArea
     ), // Fin Scaffold
     ); // Fin GestureDetector
   }

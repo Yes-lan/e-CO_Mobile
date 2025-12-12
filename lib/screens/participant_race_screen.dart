@@ -10,6 +10,7 @@ import '../models/runner.dart';
 import '../services/runner_service.dart';
 import '../services/beacon_service.dart';
 import '../services/log_session_service.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class ParticipantRaceScreen extends StatefulWidget {
@@ -260,6 +261,8 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
               setState(() => _showMap = !_showMap);
             },
           ),
+          const SizedBox(width: 8),
+          const LanguageSelectorWidget(mode: 'appBar'),
         ],
       ),
       body: _showMap ? _buildMapView() : _buildListView(),
