@@ -157,10 +157,14 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
     setState(() => _isLoading = true);
     try {
       final sessions = await _sessionService.getActiveSessions();
+
+      sessions.sort((a, b) => b.sessionStart!.compareTo(a.sessionStart!));
+
       setState(() {
         _activeSessions = sessions;
         _isLoading = false;
       });
+
       print('✅ ${_activeSessions.length} courses actives chargées');
     } catch (e) {
       print('❌ Erreur chargement courses actives: $e');
@@ -523,10 +527,12 @@ class _SessionsTabState extends State<SessionsTab> {
     try {
       final sessions = await _sessionService.getSessions();
       setState(() {
-        // Afficher uniquement les courses terminées (sessionEnd != null)
         _sessions = sessions.where((s) => s.sessionEnd != null).toList();
+        _sessions.sort((a, b) => b.sessionStart!.compareTo(a.sessionStart!));
+
         _activeSessions = sessions.where((s) => s.isActive).toList();
         _isLoading = false;
+
       });
       print('📋 ${_sessions.length} courses terminées chargées');
     } catch (e) {

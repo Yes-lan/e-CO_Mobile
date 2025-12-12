@@ -34,7 +34,7 @@ class _ParticipantRaceScreenState extends State<ParticipantRaceScreen> {
   
   Runner? _runner;
   List<Beacon> _beacons = [];
-  Set<String> _scannedBeacons = {};
+  final Set<String> _scannedBeacons = {};
   bool _showMap = false;
   bool _isLoading = true;
   GoogleMapController? _mapController;
