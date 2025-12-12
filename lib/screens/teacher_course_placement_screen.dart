@@ -593,18 +593,9 @@ class _TeacherCoursePlacementScreenState
         );
       }
 
-      // Mettre le statut du parcours à "ready"
-      print('🎯 Mise à jour du statut du parcours à "ready"...');
-      final success = await _courseService.updateCourseStatus(
-        widget.course.id,
-        'ready',
-      );
-
-      if (success) {
-        print('✅ Statut du parcours mis à jour avec succès');
-      } else {
-        print('❌ Échec de la mise à jour du statut');
-      }
+      // Le statut du parcours reste en "draft" jusqu'à une action manuelle
+      // (l'utilisateur doit cliquer sur un bouton "Marquer comme prêt" s'il le souhaite)
+      print('✅ Toutes les balises ont été placées');
     }
   }
 
