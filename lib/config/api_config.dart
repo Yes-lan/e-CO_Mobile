@@ -2,7 +2,7 @@ class ApiConfig {
   // URL de base de votre API
   //static const String baseUrl = 'https://uneffectuated-immovably-jair.ngrok-free.dev/api';
   //Pour utiliser votre propre ngrok, changez l'URL ci-dessous par l'URL fournie par votre ngrok
-  static const String baseUrl = 'https://unwept-marleen-confineable.ngrok-free.dev';
+  static const String baseUrl = 'https://facilitative-nonmonarchic-britt.ngrok-free.dev';
   
   // Endpoints
   static const String loginEndpoint = '/api/login_check';

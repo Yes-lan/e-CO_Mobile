@@ -3,6 +3,7 @@ class Beacon {
   final String name;
   final double longitude;
   final double latitude;
+  final double accuracy;
   final String type;
   final bool isPlaced;
   final DateTime? placedAt;
@@ -15,6 +16,7 @@ class Beacon {
     required this.name,
     required this.longitude,
     required this.latitude,
+    required this.accuracy,
     required this.type,
     required this.isPlaced,
     this.placedAt,
@@ -29,6 +31,7 @@ class Beacon {
       name: json['name'] as String,
       longitude: (json['longitude'] as num).toDouble(),
       latitude: (json['latitude'] as num).toDouble(),
+      accuracy: json['accuracy']?.toDouble() ?? 0.0,
       type: json['type'] as String,
       isPlaced: json['isPlaced'] as bool,
       placedAt: json['placedAt'] != null

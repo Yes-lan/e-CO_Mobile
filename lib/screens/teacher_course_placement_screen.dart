@@ -212,14 +212,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
     print('📍 _fitMapToBeacons: ${placedBeacons.length} balises placées');
     
     if (placedBeacons.isEmpty) {
-      if (_currentPosition != null) {
-        _mapController!.animateCamera(
-          CameraUpdate.newLatLngZoom(
-            LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-            15,
-          ),
-        );
-      }
+      print('📍 Aucune balise placée, pas de zoom effectué');
       return;
     }
     
@@ -495,8 +488,7 @@ class _TeacherCoursePlacementScreenState extends State<TeacherCoursePlacementScr
             Text(AppLocalizations.of(context)!.beacon(beacon.name)),
             const SizedBox(height: 8),
             Text(AppLocalizations.of(context)!.gpsPosition),
-            Text('Lat: ${_currentPosition!.latitude.toStringAsFixed(6)}'),
-            Text('Lng: ${_currentPosition!.longitude.toStringAsFixed(6)}'),
+            Text('précision: ${_currentPosition!.accuracy.toStringAsFixed(2)} mètres'),
           ],
         ),
         actions: [
