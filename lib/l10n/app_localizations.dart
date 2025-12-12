@@ -280,6 +280,60 @@ abstract class AppLocalizations {
   /// **'Routes'**
   String get routesTab;
 
+  /// No description provided for @activeSessionsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeSessionsTab;
+
+  /// No description provided for @finishRace.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish race'**
+  String get finishRace;
+
+  /// No description provided for @finishRaceConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish race \"{sessionName}\"?'**
+  String finishRaceConfirm(Object sessionName);
+
+  /// No description provided for @raceFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Race finished'**
+  String get raceFinished;
+
+  /// No description provided for @errorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get errorGeneric;
+
+  /// No description provided for @view.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get view;
+
+  /// No description provided for @noActiveSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'No active races'**
+  String get noActiveSessions;
+
+  /// No description provided for @createNewSessionToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new race to start'**
+  String get createNewSessionToStart;
+
+  /// No description provided for @noDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No date'**
+  String get noDate;
+
   /// No description provided for @sessionClosed.
   ///
   /// In en, this message translates to:

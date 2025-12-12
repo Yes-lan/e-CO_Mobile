@@ -102,6 +102,35 @@ class AppLocalizationsEu extends AppLocalizations {
   String get routesTab => 'Ibilbideak';
 
   @override
+  String get activeSessionsTab => 'Abian';
+
+  @override
+  String get finishRace => 'Proba amaitu';
+
+  @override
+  String finishRaceConfirm(Object sessionName) {
+    return '\"$sessionName\" proba amaitu?';
+  }
+
+  @override
+  String get raceFinished => 'Proba amaituta';
+
+  @override
+  String get errorGeneric => 'Errorea';
+
+  @override
+  String get view => 'Ikusi';
+
+  @override
+  String get noActiveSessions => 'Ez dago proba aktiborik';
+
+  @override
+  String get createNewSessionToStart => 'Sortu proba berri bat hasteko';
+
+  @override
+  String get noDate => 'Ez dago datarik';
+
+  @override
   String get sessionClosed => '✅ Saioa itxita';
 
   @override
