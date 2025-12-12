@@ -533,6 +533,7 @@ class _SessionsTabState extends State<SessionsTab> {
         setState(() {
           // Afficher uniquement les courses terminées (sessionEnd != null)
           _sessions = sessions.where((s) => s.sessionEnd != null).toList();
+          _sessions.sort((a, b) => b.sessionStart!.compareTo(a.sessionStart!));
           _activeSessions = sessions.where((s) => s.isActive).toList();
           _isLoading = false;
         });
