@@ -299,13 +299,13 @@ class AppLocalizationsEu extends AppLocalizations {
   String get scanQRCodeButton => 'QR kodea eskaneatu';
 
   @override
-  String get scanStartBeacon => 'Abiapuntuko baliza eskaneatu';
+  String get scanStartBeacon => 'Abiapuntuko baliza skanatu';
 
   @override
   String get enterCode => 'Kodea sartu';
 
   @override
-  String get enterSessionCode => 'Saioaren kodea sartu';
+  String get enterSessionCode => 'Sesio kodea sartu';
 
   @override
   String get scanBeaconTitle => 'Baliza eskaneatu';
