@@ -109,11 +109,12 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String finishRaceConfirm(Object sessionName) {
-    return '\"$sessionName\" Korrika amaitu?';
+    return '\"$sessionName\" korrika amaitu?';
   }
 
   @override
   String get raceFinished => 'Korrika amaituta';
+
   @override
   String get errorGeneric => 'Errorea';
 
@@ -238,7 +239,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get beacons => 'Balizak';
 
   @override
-  String get start => 'Abiapuntua';
+  String get start => 'Hasi';
 
   @override
   String get finish => 'Amaitu';
@@ -413,11 +414,11 @@ class AppLocalizationsEu extends AppLocalizations {
   String get raceCompleted => 'Korrika osatu duzu!';
 
   @override
-  String get alreadyScanned => 'Baliza dagoeneko skanatuta';
+  String get alreadyScanned => 'Baliza dagoeneko skanatu';
 
   @override
   String beaconScanned(Object name) {
-    return '$name baliza skanatuta ✓';
+    return '$name baliza skanatu ✓';
   }
 
   @override
