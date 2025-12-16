@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../l10n/app_localizations.dart';
 import '../widgets/language_selector_widget.dart';
+import '../providers/locale_provider.dart';
+import 'package:provider/provider.dart';
 
 class ChoiceScreen extends StatelessWidget {
   const ChoiceScreen({super.key});
