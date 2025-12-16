@@ -18,13 +18,13 @@ class AppLocalizationsEu extends AppLocalizations {
   String get teacher => 'Irakaslea';
 
   @override
-  String get teacherDescription => 'Kudeatu ibilbideak eta lasaiketa-probak';
+  String get teacherDescription => 'Kudeatu ibilbideak eta lasaiketa-korrikak';
 
   @override
   String get participant => 'Parte-hartzailea';
 
   @override
-  String get participantDescription => 'Probara batu';
+  String get participantDescription => 'Korrikara batu';
 
   @override
   String get appTitle => 'eCO - Orientazio Lasterketa';
@@ -96,7 +96,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get cancel => 'Ezeztatu';
 
   @override
-  String get coursesTab => 'Probak';
+  String get coursesTab => 'Korrikak';
 
   @override
   String get routesTab => 'Ibilbideak';
@@ -105,16 +105,15 @@ class AppLocalizationsEu extends AppLocalizations {
   String get activeSessionsTab => 'Abian';
 
   @override
-  String get finishRace => 'Proba amaitu';
+  String get finishRace => 'Korrika amaitu';
 
   @override
   String finishRaceConfirm(Object sessionName) {
-    return '\"$sessionName\" proba amaitu?';
+    return '\"$sessionName\" Korrika amaitu?';
   }
 
   @override
-  String get raceFinished => 'Proba amaituta';
-
+  String get raceFinished => 'Korrika amaituta';
   @override
   String get errorGeneric => 'Errorea';
 
@@ -122,10 +121,10 @@ class AppLocalizationsEu extends AppLocalizations {
   String get view => 'Ikusi';
 
   @override
-  String get noActiveSessions => 'Ez dago proba aktiborik';
+  String get noActiveSessions => 'Ez dago korrika aktiborik';
 
   @override
-  String get createNewSessionToStart => 'Sortu proba berri bat hasteko';
+  String get createNewSessionToStart => 'Sortu korrika berri bat hasteko';
 
   @override
   String get noDate => 'Ez dago datarik';
@@ -137,7 +136,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get closeSessionError => 'Errorea ixtean';
 
   @override
-  String get noCompletedSessions => 'Ez dago amaitutako probarik';
+  String get noCompletedSessions => 'Ez dago amaitutako korrikarik';
 
   @override
   String participants(Object count) {
@@ -150,7 +149,7 @@ class AppLocalizationsEu extends AppLocalizations {
   }
 
   @override
-  String get createSession => 'Proba sortu';
+  String get createSession => 'Korrika sortu';
 
   @override
   String get closeSession => 'Saioa itxi';
@@ -185,13 +184,13 @@ class AppLocalizationsEu extends AppLocalizations {
   String get archived => 'Artxibatuta';
 
   @override
-  String get createSessionTitle => 'Proba sortu';
+  String get createSessionTitle => 'Korrika sortu';
 
   @override
-  String get sessionName => 'Probaren izena';
+  String get sessionName => 'Korrikaren izena';
 
   @override
-  String get sessionNameHint => 'Ad: Abenduaren 9ko proba';
+  String get sessionNameHint => 'Ad: Abenduaren 9ko korrika';
 
   @override
   String get selectRoute => 'Ibilbidea hautatu';
@@ -219,7 +218,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get noDescription => 'Deskribapenik ez';
 
   @override
-  String get createAndLaunch => 'Proba sortu eta abiarazi';
+  String get createAndLaunch => 'Korrika sortu eta abiarazi';
 
   @override
   String get creating => 'Sortzen...';
@@ -229,11 +228,11 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String beaconsPlaced(Object placed, Object total) {
-    return '$placed/$total baliza kokatuak';
+    return '$placed/$total balizak kokatuak';
   }
 
   @override
-  String get scanner => 'Eskaneatu';
+  String get scanner => 'Skanatu';
 
   @override
   String get beacons => 'Balizak';
@@ -270,7 +269,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get placementError => 'Errorea kokatzean';
 
   @override
-  String get allBeaconsPlaced => '✅ Baliza guztiak kokatuak! Ibilbidea prest.';
+  String get allBeaconsPlaced => '✅ Balizak guztiak kokatuak! Ibilbidea prest.';
 
   @override
   String get gpsDisabled => 'GPSa desaktibatuta dago. Mesedez, aktibatu ezazu.';
@@ -289,7 +288,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get cannotGetPreciseLocation => 'Ezin da GPS kokapen zehatza lortu';
 
   @override
-  String get scanQRCode => 'Eskaneatu balizaren QR kodea';
+  String get scanQRCode => 'Skanatu balizaren QR kode';
 
   @override
   String get precisePositioning => 'Kokapen zehatza abian';
@@ -319,25 +318,25 @@ class AppLocalizationsEu extends AppLocalizations {
   String get closeButton => 'Itxi';
 
   @override
-  String get joinSession => 'Probara batu';
+  String get joinSession => 'Korrikara batu';
 
   @override
   String get chooseJoinMethod => 'Aukeratu nola batu';
 
   @override
-  String get scanQRCodeButton => 'QR kodea eskaneatu';
+  String get scanQRCodeButton => 'QR kode skanatu';
 
   @override
-  String get scanStartBeacon => 'Abiapuntuko baliza eskaneatu';
+  String get scanStartBeacon => 'Abiapuntuko baliza skanatu';
 
   @override
-  String get enterCode => 'Kodea sartu';
+  String get enterCode => 'Kode sartu';
 
   @override
-  String get enterSessionCode => 'Sesio kodea sartu';
+  String get enterSessionCode => 'Sesio kode sartu';
 
   @override
-  String get scanBeaconTitle => 'Baliza eskaneatu';
+  String get scanBeaconTitle => 'Baliza skanatu';
 
   @override
   String get enterYourName => 'Sartu zure ezizena';
@@ -350,7 +349,7 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String get placeQRCodeInFrame =>
-      'Jarri abiapuntuko balizaren\nQR kodea esparru honetan';
+      'Jarri abiapuntuko balizaren\nQR kode esparru honetan';
 
   @override
   String get notStartBeacon =>
@@ -358,17 +357,17 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String scanError(Object error) {
-    return 'Errorea eskaneatzerakoan: $error';
+    return 'Errorea skanatzerakoan: $error';
   }
 
   @override
-  String get enterCodeTitle => 'Kodea sartu';
+  String get enterCodeTitle => 'Kode sartu';
 
   @override
-  String get enterCodeSubtitle => 'Sartu probaren kodea';
+  String get enterCodeSubtitle => 'Sartu korrikaren kode';
 
   @override
-  String get sessionCode => 'Probaren kodea';
+  String get sessionCode => 'Korrikaren kode';
 
   @override
   String get sessionCodeHint => 'Ad: ABC123';
@@ -383,7 +382,7 @@ class AppLocalizationsEu extends AppLocalizations {
   String get pleaseEnterPseudo => 'Mesedez, sartu zure ezizena';
 
   @override
-  String get pleaseEnterCode => 'Mesedez, sartu kodea';
+  String get pleaseEnterCode => 'Mesedez, sartu kode';
 
   @override
   String get invalidSessionCode => 'Saio kode baliogabea';
@@ -393,7 +392,7 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String raceTitle(Object name) {
-    return 'Proba - $name';
+    return 'Korrika - $name';
   }
 
   @override
@@ -401,24 +400,24 @@ class AppLocalizationsEu extends AppLocalizations {
 
   @override
   String beaconsCount(Object scanned, Object total) {
-    return '$scanned / $total baliza';
+    return '$scanned / $total balizak';
   }
 
   @override
-  String get scanBeacon => 'Baliza eskaneatu';
+  String get scanBeacon => 'Baliza skanatu';
 
   @override
   String get congratulations => '🎉 Zorionak!';
 
   @override
-  String get raceCompleted => 'Proba osatu duzu!';
+  String get raceCompleted => 'Korrika osatu duzu!';
 
   @override
-  String get alreadyScanned => 'Baliza dagoeneko eskaneatuta';
+  String get alreadyScanned => 'Baliza dagoeneko skanatuta';
 
   @override
   String beaconScanned(Object name) {
-    return '$name baliza eskaneatuta ✓';
+    return '$name baliza skanatuta ✓';
   }
 
   @override
@@ -431,8 +430,8 @@ class AppLocalizationsEu extends AppLocalizations {
   String get beaconLabel => 'Baliza';
 
   @override
-  String get scanned => 'Eskaneatuta ✓';
+  String get scanned => 'Skanatuta ✓';
 
   @override
-  String get toScan => 'Eskaneatzeko';
+  String get toScan => 'Skanatzeko';
 }
