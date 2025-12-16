@@ -8,6 +8,7 @@ import '../models/user.dart';
 import '../models/course.dart';
 import '../models/session.dart';
 import '../widgets/active_session_timer.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
@@ -98,6 +99,8 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
         backgroundColor: const Color(0xFF00609C),
         elevation: 0,
         actions: [
+          const LanguageSelectorWidget(mode: 'appBar'),
+          const SizedBox(width: 8),
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: _handleLogout,
@@ -122,10 +125,10 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen>
           indicatorColor: const Color(0xFFF6731F),
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
-          tabs: const [
-            Tab(icon: Icon(Icons.map), text: 'Parcours'),
-            Tab(icon: Icon(Icons.play_circle), text: 'En cours'),
-            Tab(icon: Icon(Icons.directions_run), text: 'Courses'),
+          tabs: [
+            Tab(icon: const Icon(Icons.map), text: AppLocalizations.of(context)!.routesTab),
+            Tab(icon: const Icon(Icons.play_circle), text: AppLocalizations.of(context)!.activeSessionsTab),
+            Tab(icon: const Icon(Icons.directions_run), text: AppLocalizations.of(context)!.coursesTab),
           ],
         ),
       ),
@@ -178,16 +181,16 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Terminer la course'),
-        content: Text('Terminer la course "${session.sessionName}" ?'),
+        title: Text(AppLocalizations.of(context)!.finishRace),
+        content: Text(AppLocalizations.of(context)!.finishRaceConfirm(session.sessionName)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Terminer', style: TextStyle(color: Colors.red)),
+            child: Text(AppLocalizations.of(context)!.finish, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -199,14 +202,14 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
         if (mounted) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(const SnackBar(content: Text('Course terminée')));
+          ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.raceFinished)));
           _loadActiveSessions();
         }
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Erreur'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.errorGeneric),
               backgroundColor: Colors.red,
             ),
           );
@@ -231,12 +234,12 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                 Icon(Icons.event_available, size: 80, color: Colors.grey[400]),
                 const SizedBox(height: 16),
                 Text(
-                  'Aucune course en cours',
+                  AppLocalizations.of(context)!.noActiveSessions,
                   style: TextStyle(fontSize: 18, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Créez une nouvelle course pour commencer',
+                  AppLocalizations.of(context)!.createNewSessionToStart,
                   style: TextStyle(fontSize: 14, color: Colors.grey[500]),
                   textAlign: TextAlign.center,
                 ),
@@ -272,7 +275,7 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                     }
                   },
                   icon: const Icon(Icons.add, size: 28),
-                  label: const Text('Créer une course'),
+                  label: Text(AppLocalizations.of(context)!.createSession),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFF6731F),
                     foregroundColor: Colors.white,
@@ -395,7 +398,7 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${session.nbRunner} participant(s)',
+                              AppLocalizations.of(context)!.participants(session.nbRunner),
                               style: TextStyle(color: Colors.grey[700]),
                             ),
                             const Spacer(),
@@ -408,9 +411,9 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                             if (session.sessionStart != null)
                               _SimpleTimer(startTime: session.sessionStart!)
                             else
-                              const Text(
-                                'Pas de date',
-                                style: TextStyle(color: Colors.red),
+                              Text(
+                                AppLocalizations.of(context)!.noDate,
+                                style: const TextStyle(color: Colors.red),
                               ),
                           ],
                         ),
@@ -421,7 +424,7 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                             ElevatedButton.icon(
                               onPressed: () => _endSession(session),
                               icon: const Icon(Icons.stop, size: 18),
-                              label: const Text('Terminer'),
+                              label: Text(AppLocalizations.of(context)!.finish),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                                 foregroundColor: Colors.white,
@@ -436,7 +439,7 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                                 );
                               },
                               icon: const Icon(Icons.visibility, size: 18),
-                              label: const Text('Voir'),
+                              label: Text(AppLocalizations.of(context)!.view),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF00609C),
                                 foregroundColor: Colors.white,
@@ -478,7 +481,7 @@ class _ActiveSessionsTabState extends State<ActiveSessionsTab> {
                   }
                 },
                 icon: const Icon(Icons.add, size: 28),
-                label: const Text('Créer une course'),
+                label: Text(AppLocalizations.of(context)!.createSession),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF6731F),
                   foregroundColor: Colors.white,
@@ -621,9 +624,9 @@ class _SessionsTabState extends State<SessionsTab> {
               color: const Color(0xFF00609C).withValues(alpha: 0.5),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Aucune course terminée',
-              style: TextStyle(fontSize: 18, color: Color(0xFF00609C)),
+            Text(
+              AppLocalizations.of(context)!.noCompletedSessions,
+              style: const TextStyle(fontSize: 18, color: Color(0xFF00609C)),
             ),
           ],
         ),
@@ -671,9 +674,9 @@ class _SessionsTabState extends State<SessionsTab> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${session.nbRunner} participant(s)'),
+                  Text(AppLocalizations.of(context)!.participants(session.nbRunner)),
                   Text(
-                    'Durée: ${hours}h ${minutes}min',
+                    AppLocalizations.of(context)!.duration(hours, minutes),
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ],

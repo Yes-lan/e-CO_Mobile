@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class TeacherLoginScreen extends StatefulWidget {
@@ -86,11 +87,15 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
             icon: const Icon(Icons.arrow_back, color: Color(0xFF00609C)),
             onPressed: () => context.go('/choice'),
           ),
+          actions: const [
+            LanguageSelectorWidget(mode: 'appBar'),
+            SizedBox(width: 8),
+          ],
         ),
         body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -102,6 +102,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get routesTab => 'Parcours';
 
   @override
+  String get activeSessionsTab => 'En cours';
+
+  @override
+  String get finishRace => 'Terminer la course';
+
+  @override
+  String finishRaceConfirm(Object sessionName) {
+    return 'Terminer la course \"$sessionName\" ?';
+  }
+
+  @override
+  String get raceFinished => 'Course terminée';
+
+  @override
+  String get errorGeneric => 'Erreur';
+
+  @override
+  String get view => 'Voir';
+
+  @override
+  String get noActiveSessions => 'Aucune course en cours';
+
+  @override
+  String get createNewSessionToStart =>
+      'Créez une nouvelle course pour commencer';
+
+  @override
+  String get noDate => 'Pas de date';
+
+  @override
   String get sessionClosed => '✅ Session clôturée';
 
   @override

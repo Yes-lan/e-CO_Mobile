@@ -7,6 +7,7 @@ import '../models/course.dart';
 import '../models/beacon.dart';
 import '../services/waypoint_service.dart';
 import '../services/course_service.dart';
+import '../widgets/language_selector_widget.dart';
 import '../l10n/app_localizations.dart';
 
 class TeacherCoursePlacementScreen extends StatefulWidget {
@@ -641,6 +642,10 @@ class _TeacherCoursePlacementScreenState
         ),
         backgroundColor: const Color(0xFF00609C),
         foregroundColor: Colors.white,
+        actions: const [
+          SizedBox(width: 8),
+          LanguageSelectorWidget(mode: 'appBar'),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

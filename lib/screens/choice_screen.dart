@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
-import '../providers/locale_provider.dart';
+import '../widgets/language_selector_widget.dart';
 
 class ChoiceScreen extends StatelessWidget {
   const ChoiceScreen({super.key});
@@ -78,11 +77,7 @@ class ChoiceScreen extends StatelessWidget {
             ),
             
             // Sélecteur de langue en haut à droite
-            Positioned(
-              top: 16,
-              right: 16,
-              child: _buildLanguageSelector(context),
-            ),
+            const LanguageSelectorWidget(mode: 'floating'),
           ],
         ),
       ),
