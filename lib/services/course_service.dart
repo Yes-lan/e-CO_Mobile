@@ -33,10 +33,11 @@ class CourseService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         
-        // Votre API retourne {"courses": [...]} au lieu de {"hydra:member": [...]}
+        // API Platform utilise le format JSON-LD avec "member" ou "hydra:member"
         if (data == null) return [];
         
-        final coursesData = data['courses']; // Au lieu de 'hydra:member'
+        // Essayer d'abord "member", sinon "hydra:member" (compatibilité)
+        final coursesData = data['member'] ?? data['hydra:member'];
         if (coursesData == null) return [];
         
         final courses = (coursesData as List)
