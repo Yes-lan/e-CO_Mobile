@@ -2,7 +2,8 @@ class ApiConfig {
   // URL de base de votre API
   //static const String baseUrl = 'https://uneffectuated-immovably-jair.ngrok-free.dev/api';
 
-  static const String baseUrl = 'https://std30.beaupeyrat.com';
+static const String baseUrl = 'https://std30.beaupeyrat.com';
+
 
   
   // Endpoints
