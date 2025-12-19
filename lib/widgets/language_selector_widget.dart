@@ -14,6 +14,26 @@ class LanguageSelectorWidget extends StatelessWidget {
     this.mode = 'floating',
   });
 
+  /// Widget pour afficher le drapeau (emoji ou image selon la langue)
+  Widget _buildFlagWidget(Locale locale, {double size = 18}) {
+    final flagImagePath = LocaleProvider.getFlagImagePath(locale);
+    
+    if (flagImagePath != null) {
+      // Afficher l'image du drapeau
+      return SizedBox(
+        width: size,
+        height: size,
+        child: Image.asset(flagImagePath),
+      );
+    } else {
+      // Afficher l'emoji du drapeau
+      return Text(
+        LocaleProvider.getLanguageFlag(locale),
+        style: TextStyle(fontSize: size),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
@@ -49,10 +69,7 @@ class LanguageSelectorWidget extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      LocaleProvider.getLanguageFlag(locale),
-                      style: const TextStyle(fontSize: 18),
-                    ),
+                    _buildFlagWidget(locale, size: 18),
                     const SizedBox(width: 6),
                     Text(
                       LocaleProvider.getLanguageName(locale),
@@ -110,10 +127,7 @@ class LanguageSelectorWidget extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      LocaleProvider.getLanguageFlag(locale),
-                      style: const TextStyle(fontSize: 20),
-                    ),
+                    _buildFlagWidget(locale, size: 20),
                     const SizedBox(width: 8),
                     Text(LocaleProvider.getLanguageName(locale)),
                   ],
