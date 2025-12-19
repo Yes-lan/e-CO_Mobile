@@ -387,69 +387,63 @@ class _TeacherCoursePlacementScreenState
       final qrData = jsonDecode(code);
       print('🔍 QR Data parsé: $qrData');
 
-      final qrType = qrData['type'] as String?;
+      //final qrType = qrData['type'] as String?;
 
       // Essayer d'abord waypointId (nouveau format)
-      int? waypointId = qrData['waypointId'] as int?;
+      //int? waypointId = qrData['waypointId'] as int?;
 
       // Si pas de waypointId, essayer de deviner depuis le type (ancien format)
-      if (waypointId == null) {
+      //if (waypointId == null) {
         // Ancien format: type peut être START_COURSE, END_COURSE, etc.
-        print('🔍 Ancien format détecté, recherche par type: $qrType');
+        //print('🔍 Ancien format détecté, recherche par type: $qrType');
 
         // Chercher la balise par type
-        Beacon? beacon;
-        if (qrType == 'START_COURSE' ||
-            qrType == 'START' ||
-            qrType == 'START_FINISH') {
-          beacon = _beacons.firstWhere(
-            (b) => b.type == 'start',
-            orElse: () => throw Exception('Balise de départ non trouvée'),
-          );
-        } else if (qrType == 'END_COURSE' || qrType == 'FINISH') {
-          beacon = _beacons.firstWhere(
-            (b) => b.type == 'finish',
-            orElse: () => throw Exception('Balise d\'arrivée non trouvée'),
-          );
-        } else {
-          _showError('QR code invalide: type inconnu ($qrType)');
-          return;
-        }
+        //Beacon? beacon;
+        //if (qrType == 'START_COURSE' ||
+          //  qrType == 'START' ||
+           // qrType == 'START_FINISH') {
+          //beacon = _beacons.firstWhere(
+          //  (b) => b.type == 'start',
+          //  orElse: () => throw Exception('Balise de départ non trouvée'),
+          //);
+        //} else if (qrType == 'END_COURSE' || qrType == 'FINISH') {
+        //  beacon = _beacons.firstWhere(
+        //    (b) => b.type == 'finish',
+        //    orElse: () => throw Exception('Balise d\'arrivée non trouvée'),
+        //  );
+        //} else {
+        //  _showError('QR code invalide: type inconnu ($qrType)');
+        //  return;
+        //}
 
-        print(
-          '🔍 Balise trouvée (ancien format): ${beacon.name}, isPlaced: ${beacon.isPlaced}',
-        );
+        //print(
+        //  '🔍 Balise trouvée (ancien format): ${beacon.name}, isPlaced: ${beacon.isPlaced}',
+        //);
 
-        if (beacon.isPlaced) {
-          _showError(AppLocalizations.of(context)!.alreadyPlaced);
-          _qrProcessing = false;
-          return;
-        }
+        //if (beacon.isPlaced) {
+        //  _showError(AppLocalizations.of(context)!.alreadyPlaced);
+        //  _qrProcessing = false;
+        //  return;
+        //}
 
         // Point 3: Obtenir position GPS précise
-        final precisePosition = await _getPreciseLocation();
+        //final precisePosition = await _getPreciseLocation();
 
-        if (precisePosition == null) {
-          _showError(AppLocalizations.of(context)!.cannotGetPreciseLocation);
-          _qrProcessing = false;
-          return;
-        }
+      //  if (precisePosition == null) {
+      //    _showError(AppLocalizations.of(context)!.cannotGetPreciseLocation);
+      //    _qrProcessing = false;
+      //    return;
+      //  }
 
-        setState(() => _currentPosition = precisePosition);
-        _confirmPlacement(beacon);
-        _qrProcessing = false;
-        return;
-      }
+      //  setState(() => _currentPosition = precisePosition);
+      //  _confirmPlacement(beacon);
+      //  _qrProcessing = false;
+      //  return;
+      //}
 
       // Nouveau format avec waypointId
-      print('🔍 Type: $qrType, WaypointId: $waypointId');
-
-      if (qrType == null) {
-        _showError('QR code invalide: type manquant');
-        return;
-      }
-
-      print('🔍 Recherche de la balise avec waypointId: $waypointId');
+      //print('🔍 WaypointId: $waypointId');
+      //print('🔍 Recherche de la balise avec waypointId: $waypointId');
       print('🔍 Nombre de balises: ${_beacons.length}');
 
       // Afficher toutes les balises pour debug
@@ -457,7 +451,7 @@ class _TeacherCoursePlacementScreenState
         try {
           final beaconData = jsonDecode(b.qr);
           print(
-            '🔍 Balise ${b.name} (id=${b.id}): waypointId=${beaconData['waypointId']}, type=${b.type}, qrType=${beaconData['type']}',
+            '🔍 Balise ${b.name}',
           );
         } catch (e) {
           print('🔍 Erreur parsing balise ${b.name}: $e');
@@ -465,26 +459,26 @@ class _TeacherCoursePlacementScreenState
       }
 
       // Chercher la balise par waypointId dans le JSON du QR code
-      final beacon = _beacons.firstWhere(
-        (b) {
-          try {
-            final beaconData = jsonDecode(b.qr);
-            return beaconData['waypointId'] == waypointId;
-          } catch (e) {
-            return false;
-          }
-        },
-        orElse: () =>
-            throw Exception('Balise non trouvée (waypointId: $waypointId)'),
-      );
+      //final beacon = _beacons.firstWhere(
+        //(b) {
+          //try {
+            //final beaconData = jsonDecode(b.qr);
+            //return beaconData['waypointId'] == waypointId;
+          //} catch (e) {
+          //  return false;
+          //}
+        //},
+        //orElse: () =>
+           // throw Exception('Balise non trouvée (waypointId: $waypointId)'),
+      //);
 
-      print('🔍 Balise trouvée: ${beacon.name}, isPlaced: ${beacon.isPlaced}');
+      //print('🔍 Balise trouvée: ${beacon.name}, isPlaced: ${beacon.isPlaced}');
 
-      if (beacon.isPlaced) {
-        _showError(AppLocalizations.of(context)!.alreadyPlaced);
-        _qrProcessing = false;
-        return;
-      }
+      //if (beacon.isPlaced) {
+       // _showError(AppLocalizations.of(context)!.alreadyPlaced);
+       // _qrProcessing = false;
+       // return;
+      //}
 
       // Point 3: Obtenir position GPS précise
       final precisePosition = await _getPreciseLocation();
@@ -496,7 +490,7 @@ class _TeacherCoursePlacementScreenState
       }
 
       setState(() => _currentPosition = precisePosition);
-      _confirmPlacement(beacon);
+      //_confirmPlacement(beacon);
       _qrProcessing = false;
     } catch (e, stackTrace) {
       print('❌ Erreur _onQrCodeDetected: $e');

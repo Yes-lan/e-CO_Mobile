@@ -18,8 +18,6 @@ import 'models/beacon.dart';
 import 'models/session.dart';
 import 'providers/locale_provider.dart';
 import 'l10n/app_localizations.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -132,49 +130,3 @@ final GoRouter _router = GoRouter(
     ),
   ],
 );
-
-// Exemple de handler pour le résultat du scan
-Future<void> handleScanResult(String raw) async {
-  final s = raw.trim();
-  print('Scanned raw: >>>$s<<<');
-
-  // Cas 1 : JSON direct
-  if (s.startsWith('{') || s.startsWith('[')) {
-    try {
-      final data = jsonDecode(s);
-      print('Parsed JSON from QR: $data');
-      // ...traiter data...
-      return;
-    } catch (e) {
-      print('JSON decode failed: $e');
-      // fallback to treat as text below
-    }
-  }
-
-  // Cas 2 : URL -> fetcher puis essayer de parser la réponse
-  final uri = Uri.tryParse(s);
-  if (uri != null && (uri.scheme == 'http' || uri.scheme == 'https')) {
-    try {
-      final resp = await http.get(uri);
-      print('HTTP ${resp.statusCode} body: ${resp.body}');
-      final body = resp.body.trim();
-      if (body.startsWith('{') || body.startsWith('[')) {
-        final data = jsonDecode(body);
-        print('Parsed JSON from URL response: $data');
-        // ...traiter data...
-        return;
-      } else {
-        // réponse non-JSON (HTML ou texte)
-        print('URL returned non-JSON content (probably HTML).');
-        // ...ouvrir dans un WebView ou afficher un message...
-        return;
-      }
-    } catch (e) {
-      print('HTTP fetch failed: $e');
-    }
-  }
-
-  // Cas 3 : texte simple ou autre format
-  print('Treat as plain text or unknown format: $s');
-  // ...traiter le texte...
-}

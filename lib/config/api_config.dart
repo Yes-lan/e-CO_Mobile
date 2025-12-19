@@ -1,6 +1,6 @@
 class ApiConfig {
   // URL de base de votre API
-  static const String baseUrl = 'https://facilitative-nonmonarchic-britt.ngrok-free.dev/api';
+  static const String baseUrl = 'https://facilitative-nonmonarchic-britt.ngrok-free.dev';
 
   // static const String baseUrl = 'https://std30.beaupeyrat.com';
 
