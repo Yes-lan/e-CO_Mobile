@@ -33,17 +33,45 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
     setState(() => _isLoading = true);
 
     try {
-      final session = await _sessionService.getSessionByQr(_codeController.text.trim());
+      final sessionId = int.tryParse(_codeController.text.trim());
+      final session = sessionId == null
+        ? null
+        : await _sessionService.getSessionForParticipant(sessionId);
+
+
       
       if (!mounted) return;
       
       if (session != null) {
-        // Session trouvée, démarrer la course
+        // ❌ Session pas encore démarrée
+        if (session.sessionStart == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("La session n'a pas encore démarré"),
+              backgroundColor: Colors.orange,
+            ),
+          );
+          return;
+        }
+
+        // ❌ Session terminée
+        if (session.sessionEnd != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("La session est terminée"),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
+
+        // ✅ Session en cours → OK
         context.go('/participant-race', extra: {
           'session': session,
           'runnerName': _nameController.text.trim(),
         });
       } else {
+        // ❌ Session inexistante
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context)!.invalidSessionCode),
@@ -51,6 +79,7 @@ class _ParticipantEnterCodeScreenState extends State<ParticipantEnterCodeScreen>
           ),
         );
       }
+
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

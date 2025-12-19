@@ -272,6 +272,25 @@ class SessionService {
       return null;
     }
   }
+  Future<Session?> getSessionForParticipant(int id) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/api/sessions/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
+        },
+      ).timeout(ApiConfig.receiveTimeout);
+
+      if (response.statusCode == 200) {
+        return Session.fromJson(jsonDecode(response.body));
+      }
+      return null;
+    } catch (e) {
+      print('❌ getSessionForParticipant: $e');
+      return null;
+    }
+  }
 
   // Terminer une session
   Future<bool> endSession(int sessionId) async {

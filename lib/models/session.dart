@@ -24,7 +24,6 @@ class Session {
     DateTime? parseDateTime(String? dateStr) {
       if (dateStr == null) return null;
       try {
-        // Format: "2025-12-11 00:33:46" - parser comme heure locale
         final date = DateTime.parse(dateStr.replaceAll(' ', 'T'));
         return date;
       } catch (e) {
@@ -33,16 +32,31 @@ class Session {
       }
     }
 
+    int parseInt(dynamic value) {
+      if (value == null) return 0;
+      if (value is int) return value;
+      return int.tryParse(value.toString()) ?? 0;
+    }
+
+    Map<String, dynamic>? courseMap;
+    if (json['course'] != null && json['course'] is Map<String, dynamic>) {
+      courseMap = json['course'] as Map<String, dynamic>;
+    } else if (json['parcours'] != null && json['parcours'] is Map<String, dynamic>) {
+      courseMap = json['parcours'] as Map<String, dynamic>;
+    }
+
     return Session(
-      id: json['id'] as int,
-      sessionName: (json['sessionName'] ?? json['name']) as String,
-      nbRunner: (json['nbRunner'] ?? json['nbRunners'] ?? 0) as int,
-      courseId: (json['course'] ?? json['parcours'])?['id'] as int?,
-      courseName: (json['course'] ?? json['parcours'])?['name'] as String?,
+      id: parseInt(json['id']),
+      sessionName: (json['sessionName'] ?? json['name'] ?? '') as String,
+      nbRunner: parseInt(json['nbRunner'] ?? json['nbRunners']),
+      courseId: courseMap != null ? parseInt(courseMap['id']) : null,
+      courseName: courseMap != null ? courseMap['name'] as String? : null,
       sessionStart: parseDateTime(json['sessionStart'] ?? json['startDate']),
       sessionEnd: parseDateTime(json['sessionEnd'] ?? json['endDate']),
     );
   }
+
+
 
   Map<String, dynamic> toJson() {
     return {
